@@ -1,16 +1,18 @@
 package com.abc.model;
 
+import com.abc.enums.UserRole;
+
 public class User {
     private int id;
     private String name;
     private String email;
     private String phone;
     private int nearestLocation; // foreign key from Branch
-    private String role;
+    private UserRole role;
 
     public User() {}
 
-    public User(int id, String name, String email, String phone, int nearestLocation, String role) {
+    public User(int id, String name, String email, String phone, int nearestLocation, UserRole role) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -59,11 +61,11 @@ public class User {
         this.nearestLocation = nearestLocation;
     }
 
-    public String getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 }

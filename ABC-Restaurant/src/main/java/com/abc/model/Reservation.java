@@ -1,26 +1,28 @@
 package com.abc.model;
 
-import java.util.Date;
+import com.abc.enums.ReservationStatus;
+
+import java.time.LocalDateTime;
 
 public class Reservation {
     private int id;
-    private int userId; // foreign key from User
-    private int branchId; // foreign key from Branch
-    private Date reservationDate;
-    private int numOfPeople;
-    private String status;
+    private int userId;
+    private int branchId;
+    private ReservationStatus status;
+    private LocalDateTime reservationDate;
+    private String notes;
 
-    public Reservation() {}
-
-    public Reservation(int id, int userId, int branchId, Date reservationDate, int numOfPeople, String status) {
+    // Constructor
+    public Reservation(int id, int userId, int branchId, ReservationStatus status, LocalDateTime reservationDate, String notes) {
         this.id = id;
         this.userId = userId;
         this.branchId = branchId;
-        this.reservationDate = reservationDate;
-        this.numOfPeople = numOfPeople;
         this.status = status;
+        this.reservationDate = reservationDate;
+        this.notes = notes;
     }
 
+    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -45,27 +47,27 @@ public class Reservation {
         this.branchId = branchId;
     }
 
-    public Date getReservationDate() {
-        return reservationDate;
-    }
-
-    public void setReservationDate(Date reservationDate) {
-        this.reservationDate = reservationDate;
-    }
-
-    public int getNumOfPeople() {
-        return numOfPeople;
-    }
-
-    public void setNumOfPeople(int numOfPeople) {
-        this.numOfPeople = numOfPeople;
-    }
-
-    public String getStatus() {
+    public ReservationStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ReservationStatus status) {
         this.status = status;
+    }
+
+    public LocalDateTime getReservationDate() {
+        return reservationDate;
+    }
+
+    public void setReservationDate(LocalDateTime reservationDate) {
+        this.reservationDate = reservationDate;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

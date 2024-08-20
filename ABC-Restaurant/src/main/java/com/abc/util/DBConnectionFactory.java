@@ -1,4 +1,4 @@
-package com.abc.dao;
+package com.abc.util;
 
 import java.sql.Connection;
 import java.sql.SQLException;

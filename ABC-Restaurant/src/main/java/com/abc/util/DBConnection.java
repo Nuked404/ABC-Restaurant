@@ -1,4 +1,4 @@
-package com.abc.dao;
+package com.abc.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -42,6 +42,15 @@ public class DBConnection {
     }
 
     public Connection getConnection() {
+        try {
+            if (connection == null || connection.isClosed()) {
+                // Re-establish connection if closed
+                this.connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Failed to re-establish database connection", e);
+            throw new RuntimeException("Failed to re-establish database connection", e);
+        }
         return connection;
     }
 

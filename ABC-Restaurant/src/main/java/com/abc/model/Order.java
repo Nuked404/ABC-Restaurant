@@ -2,15 +2,17 @@ package com.abc.model;
 
 import java.math.BigDecimal;
 
+import com.abc.enums.OrderStatus;
+
 public class Order {
     private int id;
     private int userId; // foreign key from User
-    private String status;
+    private OrderStatus status;
     private BigDecimal total;
 
     public Order() {}
 
-    public Order(int id, int userId, String status, BigDecimal total) {
+    public Order(int id, int userId, OrderStatus status, BigDecimal total) {
         this.id = id;
         this.userId = userId;
         this.status = status;
@@ -33,11 +35,11 @@ public class Order {
         this.userId = userId;
     }
 
-    public String getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 

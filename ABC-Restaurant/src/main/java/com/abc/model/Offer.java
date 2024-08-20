@@ -1,22 +1,20 @@
 package com.abc.model;
 
-import java.math.BigDecimal;
-
 public class Offer {
     private int id;
-    private String name;
+    private String title;
     private String description;
-    private BigDecimal discount;
+    private String imagePath;
 
-    public Offer() {}
-
-    public Offer(int id, String name, String description, BigDecimal discount) {
+    // Constructor
+    public Offer(int id, String title, String description, String imagePath) {
         this.id = id;
-        this.name = name;
+        this.title = title;
         this.description = description;
-        this.discount = discount;
+        this.imagePath = imagePath;
     }
 
+    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -25,12 +23,12 @@ public class Offer {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -41,11 +39,11 @@ public class Offer {
         this.description = description;
     }
 
-    public BigDecimal getDiscount() {
-        return discount;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setDiscount(BigDecimal discount) {
-        this.discount = discount;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }

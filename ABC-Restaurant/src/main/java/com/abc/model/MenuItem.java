@@ -1,15 +1,17 @@
 package com.abc.model;
 
+import java.math.BigDecimal;
+
 public class MenuItem {
     private int id;
     private String name;
     private String description;
-    private double price;
+    private BigDecimal price;
     private String imagePath;
 
     public MenuItem() {}
 
-    public MenuItem(int id, String name, String description, double price, String imagePath) {
+    public MenuItem(int id, String name, String description, BigDecimal price, String imagePath) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -41,11 +43,11 @@ public class MenuItem {
         this.description = description;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

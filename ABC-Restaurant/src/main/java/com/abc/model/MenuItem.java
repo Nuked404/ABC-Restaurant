@@ -8,18 +8,36 @@ public class MenuItem {
     private String description;
     private BigDecimal price;
     private String imagePath;
+    private String category;
 
     public MenuItem() {}
 
-    public MenuItem(int id, String name, String description, BigDecimal price, String imagePath) {
+    public MenuItem(int id, String name, String description, BigDecimal price, String imagePath,String category) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.imagePath = imagePath;
+        this.category = category;
+    }
+    
+    public MenuItem(String name, String description, BigDecimal price, String imagePath,String category) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.imagePath = imagePath;
+        this.category = category;
     }
 
-    public int getId() {
+    public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public int getId() {
         return id;
     }
 

@@ -10,7 +10,7 @@ import java.util.List;
 public class MenuItemDAO {
     
     public void addMenuItem(MenuItem menuItem) {
-        String query = "INSERT INTO menu_item (name, description, price, image_path) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO menu_item (name, description, price, image_path,category) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = DBConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -19,6 +19,7 @@ public class MenuItemDAO {
             statement.setString(2, menuItem.getDescription());
             statement.setBigDecimal(3, menuItem.getPrice());
             statement.setString(4, menuItem.getImagePath());
+            statement.setString(5, menuItem.getCategory());
 
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -42,7 +43,8 @@ public class MenuItemDAO {
                     resultSet.getString("name"),
                     resultSet.getString("description"),
                     resultSet.getBigDecimal("price"),
-                    resultSet.getString("image_path")
+                    resultSet.getString("image_path"),
+                    resultSet.getString("category")
                 );
             }
         } catch (SQLException e) {
@@ -66,7 +68,8 @@ public class MenuItemDAO {
                     resultSet.getString("name"),
                     resultSet.getString("description"),
                     resultSet.getBigDecimal("price"),
-                    resultSet.getString("image_path")
+                    resultSet.getString("image_path"),
+                    resultSet.getString("category")
                 ));
             }
         } catch (SQLException e) {
@@ -77,7 +80,7 @@ public class MenuItemDAO {
     }
 
     public void updateMenuItem(MenuItem menuItem) {
-        String query = "UPDATE menu_item SET name = ?, description = ?, price = ?, image_path = ? WHERE id = ?";
+        String query = "UPDATE menu_item SET name = ?, description = ?, price = ?, image_path = ?, category = ? WHERE id = ?";
 
         try (Connection connection = DBConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -86,7 +89,8 @@ public class MenuItemDAO {
             statement.setString(2, menuItem.getDescription());
             statement.setBigDecimal(3, menuItem.getPrice());
             statement.setString(4, menuItem.getImagePath());
-            statement.setInt(5, menuItem.getId());
+            statement.setString(5, menuItem.getCategory());
+            statement.setInt(6, menuItem.getId());
 
             statement.executeUpdate();
         } catch (SQLException e) {

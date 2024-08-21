@@ -14,9 +14,9 @@ import com.abc.model.Branch;
 import com.abc.service.BranchService;
 
 /**
- * Servlet implementation class DashboardController
+ * Servlet implementation class DashboardMainController
  */
-public class DashboardController extends HttpServlet {
+public class DashboardMainController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private BranchService branchService;
@@ -24,7 +24,7 @@ public class DashboardController extends HttpServlet {
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public DashboardController() {
+	public DashboardMainController() {
 		super();
 		branchService = BranchService.getInstance();
 		// TODO Auto-generated constructor stub
@@ -47,20 +47,20 @@ public class DashboardController extends HttpServlet {
 			request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
 			return;
 		}
-		
+
 		Branch updateBranch = new Branch();
 		String action = request.getParameter("action");
-        if (action != null && action.equals("updateBranch")) {
-        	try {
-        		int id = Integer.parseInt(request.getParameter("branchId"));
-        		updateBranch = branchService.getBranchById(id);
-    			request.setAttribute("ubranch", updateBranch);
-    		} catch (Exception e) { // Just to be sure
-    			request.setAttribute("errorMessage", e.getMessage());
-    			request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
-    			return;
-    		}
-        }
+		if (action != null && action.equals("updateBranch")) {
+			try {
+				int id = Integer.parseInt(request.getParameter("branchId"));
+				updateBranch = branchService.getBranchById(id);
+				request.setAttribute("ubranch", updateBranch);
+			} catch (Exception e) { // Just to be sure
+				request.setAttribute("errorMessage", e.getMessage());
+				request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
+				return;
+			}
+		}
 
 		// TODO Auto-generated method stub
 		// response.getWriter().append("Served at: ").append(request.getContextPath());
@@ -76,19 +76,21 @@ public class DashboardController extends HttpServlet {
 		// TODO Auto-generated method stub
 
 		String action = request.getParameter("action");
-		if (action.equals("addBranch")) {
-			addBranch(request, response);
-		} else if (action.equals("deleteBranch")) {
-			deleteBranch(request, response);
-		}else if (action.equals("updateBranchConf")) {
-			try {
-				updateBranch(request, response);
-    		} catch (ServletException | IOException  e) {
-    			request.setAttribute("errorMessage", e.getMessage());
-    			request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
-    			return;
-    		}			
-		}		
+		if (action != null) {
+			if (action.equals("addBranch")) {
+				addBranch(request, response);
+			} else if (action.equals("deleteBranch")) {
+				deleteBranch(request, response);
+			} else if (action.equals("updateBranchConf")) {
+				try {
+					updateBranch(request, response);
+				} catch (ServletException | IOException e) {
+					request.setAttribute("errorMessage", e.getMessage());
+					request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
+					return;
+				}
+			}
+		}
 
 		doGet(request, response); // Everything redirects back
 	}
@@ -106,16 +108,17 @@ public class DashboardController extends HttpServlet {
 			throws ServletException, IOException {
 		int id = Integer.parseInt(request.getParameter("branchId"));
 		branchService.deleteBranch(id);
-		//response.sendRedirect("branch?action=list");
+		// response.sendRedirect("branch?action=list");
 	}
-	
-	private void updateBranch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("branchId"));
-        String location = request.getParameter("location");
-        Branch branch = new Branch();
-        branch.setId(id);
-        branch.setLocation(location);
-        branchService.updateBranch(branch);
-    }
+
+	private void updateBranch(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		int id = Integer.parseInt(request.getParameter("branchId"));
+		String location = request.getParameter("location");
+		Branch branch = new Branch();
+		branch.setId(id);
+		branch.setLocation(location);
+		branchService.updateBranch(branch);
+	}
 
 }

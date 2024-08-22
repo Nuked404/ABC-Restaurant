@@ -121,11 +121,16 @@ table th, table td {
 							<label for="location" class="form-label">Location</label> <input
 								type="text" class="form-control" id="location" name="location"
 								value="${ubranch != null ? ubranch.location : ''}" required>
-								<input type="hidden" name="branchId" value="${ubranch.id}" />
+							<input type="hidden" name="branchId" value="${ubranch.id}" />
+						</div>
+						<div class="mb-3">
+							<label for="maxSeats" class="form-label">Max Seats</label> <input
+								type="number" class="form-control" id="maxSeats" name="maxSeats"
+								value="${ubranch != null ? ubranch.maxSeats : ''}" required>
 						</div>
 						<button type="submit" class="btn btn-custom w-100">${ubranch != null ? "Update Location" : "Add Location"}</button>
 					</form>
-				</div>				
+				</div>
 			</div>
 
 			<div class="col-md-8">
@@ -135,7 +140,8 @@ table th, table td {
 						<thead>
 							<tr>
 								<th scope="col" class="col-1">ID</th>
-								<th scope="col" class="col-4">Location</th>
+								<th scope="col" class="col-3">Location</th>
+								<th scope="col" class="col-1">Max Seats</th>
 								<th scope="col" class="col-2">Actions</th>
 							</tr>
 						</thead>
@@ -146,6 +152,8 @@ table th, table td {
 									<td>${status.index + 1}</td>
 									<!-- Display the branch name -->
 									<td>${branch.location}</td>
+									<!-- Display the branch max seats -->
+									<td>${branch.maxSeats}</td>
 									<td>
 										<!-- Update Button with Branch ID -->
 										<form action="AdminDashboard?action=updateBranch"
@@ -156,7 +164,8 @@ table th, table td {
 										<form action="AdminDashboard?action=deleteBranch"
 											method="post" style="display: inline;">
 											<input type="hidden" name="branchId" value="${branch.id}" />
-											<button class="btn btn-delete" type="submit">Delete</button>
+											<button class="btn btn-delete" type="submit"
+												onclick="return confirm('Are you sure you want to delete this entry? This action cannot be undone.');">Delete</button>
 										</form>
 									</td>
 								</tr>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,6 +24,12 @@ body {
 	border-radius: 8px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	margin-bottom: 30px;
+}
+
+.card-img-top {
+	width: 100%;
+	height: 200px; /* Set a fixed height for all images */
+	object-fit: cover; /* Ensures the image covers the entire container */
 }
 
 .form-container, .table-container {
@@ -153,47 +160,72 @@ table th, table td {
 
 
 	<div class="container">
-		<div class="row cust-container">
+		<div class="row">
+			<!-- Initialize a set to keep track of the displayed categories -->
+			<c:set var="displayedCategories" value="" />
 
-			<div class="container">
-				<div class="row">
-					<c:forEach var="menuItem" items="${menuItems}" varStatus="status">
-						<div class="col-md-4">
-							<div class="card mb-4 shadow-sm">
-								<img src="${menuItem.imagePath}" class="card-img-top"
-									alt="${menuItem.name}">
-								<div class="card-body">
-									<h5 class="card-title">${menuItem.name}</h5>
-									<p class="card-text">${menuItem.description}</p>
-									<p class="card-text">
-										<strong>Rs.</strong>${menuItem.price}/=
-									</p>
-									<form action="DashboardMenu?action=PrepupdateMenuItem" method="post"
-										style="display: inline;">
-										<input type="hidden" name="menuItemId" value="${menuItem.id}" />
-										<button class="btn btn-update" type="submit">Update</button>
-									</form>
-									<!-- Delete Button with Branch ID -->
-									<form action="DashboardMenu?action=deleteMenuItem" method="post"
-										style="display: inline;">
-										<input type="hidden" name="menuItemId" value="${menuItem.id}" />
-										<button class="btn btn-delete" type="submit">Delete</button>
-									</form>
+			<c:forEach var="menuItem" items="${menuItems}" varStatus="status">
+				<!-- Check if the category has already been displayed -->
+				<c:if
+					test="${not fn:contains(displayedCategories, menuItem.category)}">
+
+					<!-- Add the current category to the displayedCategories -->
+					<c:set var="displayedCategories"
+						value="${displayedCategories},${menuItem.category}" />
+
+					<!-- Display the category title -->
+					<c:set var="itemCounter" value="0" />
+
+					<div class="cust-container">
+						<h3>${menuItem.category}s</h3>
+					</div>
+					<div class="row">
+						<!-- Iterate again to display items under this category -->
+						<c:forEach var="item" items="${menuItems}">
+							<!-- Check if the item belongs to the current category -->
+							<c:if test="${item.category == menuItem.category}">
+								<!-- Increment the counter for each item displayed -->
+								<c:set var="itemCounter" value="${itemCounter + 1}" />
+								<div class="col-md-4">
+									<div class="card mb-4 shadow-sm">
+										<img src="${item.imagePath}" class="card-img-top"
+											alt="${item.name}">
+										<div class="card-body">
+											<h5 class="card-title">${item.name}</h5>
+											<p class="card-text">${item.description}</p>
+											<p class="card-text">
+												<strong>Rs.</strong>${item.price}/=</p>
+											<form action="DashboardMenu?action=PrepupdateMenuItem"
+												method="post" style="display: inline;">
+												<input type="hidden" name="menuItemId" value="${item.id}" />
+												<button class="btn btn-update" type="submit">Update</button>
+											</form>
+											<!-- Delete Button with Menu Item ID -->
+											<form action="DashboardMenu?action=deleteMenuItem"
+												method="post" style="display: inline;">
+												<input type="hidden" name="menuItemId" value="${item.id}" />
+												<button class="btn btn-delete" type="submit"
+													onclick="return confirm('Are you sure you want to delete this entry? This action cannot be undone.');">Delete</button>
+											</form>
+										</div>
+									</div>
 								</div>
-							</div>
-						</div>
 
-						<!-- Break row after every 3 cards -->
-						<c:if test="${status.index % 3 == 2}">
-				</div>
-				<div class="row">
-					</c:if>
-					</c:forEach>
-				</div>
-			</div>
-
+								<!-- Break row after every 3 cards within the same category -->
+								<c:if test="${itemCounter % 3 == 0 && itemCounter != 0}">
+					</div>
+					<div class="row">
+				</c:if>
+				</c:if>
+			</c:forEach>
 		</div>
+		</c:if>
+		</c:forEach>
 	</div>
+	</div>
+
+
+
 
 	<!-- Bootstrap JS Bundle with Popper -->
 	<script

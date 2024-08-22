@@ -95,13 +95,16 @@ public class DashboardMainController extends HttpServlet {
 		doGet(request, response); // Everything redirects back
 	}
 
-	private void addBranch(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		String location = request.getParameter("location");
-		Branch branch = new Branch();
-		branch.setLocation(location);
-		branchService.addBranch(branch);
-		// response.sendRedirect("WEB-INF/view/dashboard.jsp");
+	private void addBranch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    String location = request.getParameter("location");
+	    int maxSeats = Integer.parseInt(request.getParameter("maxSeats"));  // Get maxSeats from form
+
+	    Branch branch = new Branch();
+	    branch.setLocation(location);
+	    branch.setMaxSeats(maxSeats);  // Set maxSeats
+
+	    branchService.addBranch(branch);
+	    //response.sendRedirect("branch?action=list");
 	}
 
 	private void deleteBranch(HttpServletRequest request, HttpServletResponse response)
@@ -111,14 +114,18 @@ public class DashboardMainController extends HttpServlet {
 		// response.sendRedirect("branch?action=list");
 	}
 
-	private void updateBranch(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		int id = Integer.parseInt(request.getParameter("branchId"));
-		String location = request.getParameter("location");
-		Branch branch = new Branch();
-		branch.setId(id);
-		branch.setLocation(location);
-		branchService.updateBranch(branch);
+	private void updateBranch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    int id = Integer.parseInt(request.getParameter("branchId"));
+	    String location = request.getParameter("location");
+	    int maxSeats = Integer.parseInt(request.getParameter("maxSeats"));  // Get maxSeats from form
+
+	    Branch branch = new Branch();
+	    branch.setId(id);
+	    branch.setLocation(location);
+	    branch.setMaxSeats(maxSeats);  // Update maxSeats
+
+	    branchService.updateBranch(branch);
+	    //response.sendRedirect("branch?action=list");
 	}
 
 }

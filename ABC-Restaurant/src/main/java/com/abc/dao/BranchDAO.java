@@ -9,19 +9,19 @@ import java.util.List;
 
 public class BranchDAO {
 
-    // Add a new branch to the database
-    public void addBranch(Branch branch) {
-        String query = "INSERT INTO branch (location) VALUES (?)";
+	public void addBranch(Branch branch) {
+	    String query = "INSERT INTO branch (location, max_seats) VALUES (?, ?)";
 
-        try (Connection connection = DBConnectionFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+	    try (Connection connection = DBConnectionFactory.getConnection();
+	         PreparedStatement statement = connection.prepareStatement(query)) {
 
-            statement.setString(1, branch.getLocation());
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+	        statement.setString(1, branch.getLocation());
+	        statement.setInt(2, branch.getMaxSeats());  // Set maxSeats value
+	        statement.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
 
     // Retrieve a branch by its ID
     public Branch getBranchById(int id) {
@@ -37,7 +37,8 @@ public class BranchDAO {
             if (resultSet.next()) {
                 branch = new Branch(
                     resultSet.getInt("id"),
-                    resultSet.getString("location")
+                    resultSet.getString("location"),
+                    resultSet.getInt("max_seats")  // Get maxSeats value
                 );
             }
         } catch (SQLException e) {
@@ -59,7 +60,8 @@ public class BranchDAO {
             while (resultSet.next()) {
                 branches.add(new Branch(
                     resultSet.getInt("id"),
-                    resultSet.getString("location")
+                    resultSet.getString("location"),
+                    resultSet.getInt("max_seats")  // Get maxSeats value
                 ));
             }
         } catch (SQLException e) {
@@ -71,13 +73,14 @@ public class BranchDAO {
 
     // Update an existing branch in the database
     public void updateBranch(Branch branch) {
-        String query = "UPDATE branch SET location = ? WHERE id = ?";
+        String query = "UPDATE branch SET location = ?, max_seats = ? WHERE id = ?";
 
         try (Connection connection = DBConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setString(1, branch.getLocation());
-            statement.setInt(2, branch.getId());
+            statement.setInt(2, branch.getMaxSeats());  // Update maxSeats value
+            statement.setInt(3, branch.getId());
 
             statement.executeUpdate();
         } catch (SQLException e) {

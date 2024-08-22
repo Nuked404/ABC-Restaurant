@@ -84,30 +84,35 @@ public class DashboardMenuController extends HttpServlet {
 	}
 
 	private void addMenuItem(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		String name = request.getParameter("AddMenuItemname");
-		BigDecimal price = new BigDecimal(request.getParameter("AddMenuItemprice"));
-		String description = request.getParameter("AddMenuItemdescription");
-		String category = request.getParameter("AddMenuItemcategory");
+	        throws ServletException, IOException {
+	    String name = request.getParameter("AddMenuItemname");
+	    BigDecimal price = new BigDecimal(request.getParameter("AddMenuItemprice"));
+	    String description = request.getParameter("AddMenuItemdescription");
+	    String category = request.getParameter("AddMenuItemcategory");
 
-		// Handle file upload for the image
-		Part filePart = request.getPart("AddMenuItemimage");
-		String fileName = extractFileName(filePart);
-		String uploadPath = getServletContext().getRealPath("") + File.separator + "images/menu";
-		File uploadDir = new File(uploadPath);
-		if (!uploadDir.exists()) {
-			uploadDir.mkdir();
-		}
-		String filePath = uploadPath + File.separator + fileName;
-		filePart.write(filePath);
+	    // Handle file upload for the image
+	    Part filePart = request.getPart("AddMenuItemimage");
+	    String fileName = extractFileName(filePart);
+	    
+	    // Generate a unique file name using timestamp
+	    String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
+	    
+	    String uploadPath = getServletContext().getRealPath("") + File.separator + "images/menu";
+	    File uploadDir = new File(uploadPath);
+	    if (!uploadDir.exists()) {
+	        uploadDir.mkdir();
+	    }
+	    
+	    String filePath = uploadPath + File.separator + uniqueFileName;
+	    filePart.write(filePath);
 
-		// Save image path in database
-		String imagePath = "images/menu" + File.separator + fileName;
+	    // Save image path in database
+	    String imagePath = "images/menu" + File.separator + uniqueFileName;
 
-		MenuItem menuItem = new MenuItem(name, description, price, imagePath,category);
-		menuItemService.addMenuItem(menuItem);
-		// response.sendRedirect("menuItem?action=list");
+	    MenuItem menuItem = new MenuItem(name, description, price, imagePath, category);
+	    menuItemService.addMenuItem(menuItem);
 	}
+
 
 	private String extractFileName(Part part) {
 		String contentDisposition = part.getHeader("content-disposition");
@@ -132,37 +137,62 @@ public class DashboardMenuController extends HttpServlet {
 	}
 	
 	private void updateMenuItem(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("UpdateMenuid"));
-        String name = request.getParameter("AddMenuItemname");
-        BigDecimal price = new BigDecimal(request.getParameter("AddMenuItemprice"));
-        String description = request.getParameter("AddMenuItemdescription");
-        String category = request.getParameter("AddMenuItemcategory");
+	        throws ServletException, IOException {
+	    int id = Integer.parseInt(request.getParameter("UpdateMenuid"));
+	    String name = request.getParameter("AddMenuItemname");
+	    BigDecimal price = new BigDecimal(request.getParameter("AddMenuItemprice"));
+	    String description = request.getParameter("AddMenuItemdescription");
+	    String category = request.getParameter("AddMenuItemcategory");
 
-        // Handle file upload for the image
-        Part filePart = request.getPart("AddMenuItemimage");
-        String fileName = extractFileName(filePart);
-        String uploadPath = getServletContext().getRealPath("") + File.separator + "images/menu";
-        String imagePath = "images/menu" + File.separator + fileName;
-        if (fileName != null && !fileName.isEmpty()) {
-            filePart.write(uploadPath + File.separator + fileName);
-        } else {
-            // Retrieve the existing image path from the database
-        	MenuItem existingMenuItem = new MenuItem();
-        	try {
-        		existingMenuItem = menuItemService.getMenuItemById(id);
-    		} catch (SQLException e) {
-    			request.setAttribute("errorMessage", e.getMessage());
-    			request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
-    			return;
-    		}           
-            imagePath = existingMenuItem.getImagePath();
-        }
+	    // Handle file upload for the image
+	    Part filePart = request.getPart("AddMenuItemimage");
+	    String fileName = extractFileName(filePart);
+	    
+	    String uploadPath = getServletContext().getRealPath("") + File.separator + "images/menu";
+	    String imagePath = null;
+	    
+	    // Retrieve the existing menu item from the database
+	    MenuItem existingMenuItem = null;
+	    try {
+	        existingMenuItem = menuItemService.getMenuItemById(id);
+	    } catch (SQLException e) {
+	        request.setAttribute("errorMessage", e.getMessage());
+	        request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
+	        return;
+	    }
 
-        MenuItem menuItem = new MenuItem(id, name, description, price, imagePath,category);
-        menuItemService.updateMenuItem(menuItem);
-        //response.sendRedirect("menuItem?action=list");
-    }
+	    // If a new image is uploaded
+	    if (fileName != null && !fileName.isEmpty()) {
+	        // Generate a unique file name using timestamp
+	        String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
+	        imagePath = "images/menu" + File.separator + uniqueFileName;
+
+	        // Delete the existing image file if it exists
+	        String existingImagePath = existingMenuItem.getImagePath();
+	        if (existingImagePath != null && !existingImagePath.isEmpty()) {
+	            File existingImageFile = new File(getServletContext().getRealPath("") + File.separator + existingImagePath);
+	            if (existingImageFile.exists()) {
+	                existingImageFile.delete();
+	            }
+	        }
+
+	        // Write the new image file
+	        String newFilePath = uploadPath + File.separator + uniqueFileName;
+	        filePart.write(newFilePath);
+	    } else {
+	        // Use the existing image path if no new image is uploaded
+	        imagePath = existingMenuItem.getImagePath();
+	    }
+
+	    // Update the menu item in the database
+	    MenuItem menuItem = new MenuItem(id, name, description, price, imagePath, category);
+	    menuItemService.updateMenuItem(menuItem);
+
+	    // Redirect or forward as needed
+	    //response.sendRedirect("menuItem?action=list");
+	}
+
+
 	
 	private void deleteMenuItem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    int id = Integer.parseInt(request.getParameter("menuItemId"));

@@ -68,37 +68,32 @@ table th, table td {
 </style>
 </head>
 <body>
-
-	<div class="container" style="margin-top: 50px;">
-		<div class="row">
-			<div class="cust-container">
-				<h1>Manage Admin Account</h1>
+	<!-- Sticky Navbar -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">ABC Restaurant</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarNav"
+				aria-controls="navbarNav" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item"><a class="nav-link"
+						aria-current="page" href="AdminDashboard">Dashboard</a></li>
+					<li class="nav-item"><a class="nav-link" href="DashboardMenu">Manage
+							Menu</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Manage
+							Users</a></li>
+					<li class="nav-item"><a class="nav-link active"
+						href="DashboardLocation">Manage Locations</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Reports</a>
+					</li>
+				</ul>
 			</div>
 		</div>
-	</div>
-
-	<div class="container">
-		<div class="row cust-container">
-			<div class="form-container">
-				<h4>Update Password</h4>
-				<form action="addLocation.jsp" method="post">
-					<div class="mb-3">
-						<label for="password" class="form-label">Password</label> <input
-							type="password" class="form-control" id="password"
-							name="password" required>
-					</div>
-
-					<div class="mb-3">
-						<label for="confirmPassword" class="form-label">Confirm
-							Password</label> <input type="password" class="form-control"
-							id="confirmPassword" name="confirmPassword" required>
-					</div>
-					<button type="submit" class="btn btn-custom w-100">Update
-						Password</button>
-				</form>
-			</div>
-		</div>
-	</div>
+	</nav>
 
 	<div class="container" style="margin-top: 50px;">
 		<div class="row">
@@ -115,7 +110,7 @@ table th, table td {
 				<div class="form-container">
 					<h4>${ubranch != null ? "Update Location" : "Add Location"}</h4>
 					<form
-						action="AdminDashboard?action=${ubranch != null ? 'updateBranchConf' : 'addBranch'}"
+						action="DashboardLocation?action=${ubranch != null ? 'updateBranch' : 'addBranch'}"
 						method="post">
 						<div class="mb-3">
 							<label for="location" class="form-label">Location</label> <input
@@ -156,12 +151,12 @@ table th, table td {
 									<td>${branch.maxSeats}</td>
 									<td>
 										<!-- Update Button with Branch ID -->
-										<form action="AdminDashboard?action=updateBranch"
+										<form action="DashboardLocation?action=editBranch"
 											method="post" style="display: inline;">
 											<input type="hidden" name="branchId" value="${branch.id}" />
-											<button class="btn btn-update" type="submit">Update</button>
+											<button class="btn btn-update" type="submit">Edit</button>
 										</form> <!-- Delete Button with Branch ID -->
-										<form action="AdminDashboard?action=deleteBranch"
+										<form action="DashboardLocation?action=deleteBranch"
 											method="post" style="display: inline;">
 											<input type="hidden" name="branchId" value="${branch.id}" />
 											<button class="btn btn-delete" type="submit"

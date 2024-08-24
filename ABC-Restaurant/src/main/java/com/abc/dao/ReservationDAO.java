@@ -1,6 +1,7 @@
 package com.abc.dao;
 
 import com.abc.enums.ReservationStatus;
+import com.abc.enums.TimeFrame;
 import com.abc.model.Reservation;
 import com.abc.util.DBConnectionFactory;
 
@@ -12,7 +13,7 @@ public class ReservationDAO {
 
     // Add a reservation to the database
     public void addReservation(Reservation reservation) {
-        String query = "INSERT INTO reservation (user_id, branch_id, status, reservation_date, notes) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO reservation (user_id, branch_id, status, reservation_date, time_frame, seat_count, notes) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DBConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -20,8 +21,10 @@ public class ReservationDAO {
             statement.setInt(1, reservation.getUserId());
             statement.setInt(2, reservation.getBranchId());
             statement.setString(3, reservation.getStatus().name()); // Convert enum to String
-            statement.setTimestamp(4, Timestamp.valueOf(reservation.getReservationDate()));
-            statement.setString(5, reservation.getNotes());
+            statement.setDate(4, Date.valueOf(reservation.getReservationDate())); // Store only the date
+            statement.setString(5, reservation.getTimeFrame().name()); // Convert enum to String
+            statement.setInt(6, reservation.getSeatCount());
+            statement.setString(7, reservation.getNotes());
 
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -46,7 +49,9 @@ public class ReservationDAO {
                     resultSet.getInt("user_id"),
                     resultSet.getInt("branch_id"),
                     ReservationStatus.valueOf(resultSet.getString("status")), // Convert String to enum
-                    resultSet.getTimestamp("reservation_date").toLocalDateTime(),
+                    resultSet.getDate("reservation_date").toLocalDate(), // Convert SQL date to LocalDate
+                    TimeFrame.valueOf(resultSet.getString("time_frame")), // Convert String to enum
+                    resultSet.getInt("seat_count"),
                     resultSet.getString("notes")
                 );
             }
@@ -72,7 +77,9 @@ public class ReservationDAO {
                     resultSet.getInt("user_id"),
                     resultSet.getInt("branch_id"),
                     ReservationStatus.valueOf(resultSet.getString("status")), // Convert String to enum
-                    resultSet.getTimestamp("reservation_date").toLocalDateTime(),
+                    resultSet.getDate("reservation_date").toLocalDate(), // Convert SQL date to LocalDate
+                    TimeFrame.valueOf(resultSet.getString("time_frame")), // Convert String to enum
+                    resultSet.getInt("seat_count"),
                     resultSet.getString("notes")
                 ));
             }
@@ -85,7 +92,7 @@ public class ReservationDAO {
 
     // Update an existing reservation in the database
     public void updateReservation(Reservation reservation) {
-        String query = "UPDATE reservation SET user_id = ?, branch_id = ?, status = ?, reservation_date = ?, notes = ? WHERE id = ?";
+        String query = "UPDATE reservation SET user_id = ?, branch_id = ?, status = ?, reservation_date = ?, time_frame = ?, seat_count = ?, notes = ? WHERE id = ?";
 
         try (Connection connection = DBConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -93,9 +100,11 @@ public class ReservationDAO {
             statement.setInt(1, reservation.getUserId());
             statement.setInt(2, reservation.getBranchId());
             statement.setString(3, reservation.getStatus().name()); // Convert enum to String
-            statement.setTimestamp(4, Timestamp.valueOf(reservation.getReservationDate()));
-            statement.setString(5, reservation.getNotes());
-            statement.setInt(6, reservation.getId());
+            statement.setDate(4, Date.valueOf(reservation.getReservationDate())); // Store only the date
+            statement.setString(5, reservation.getTimeFrame().name()); // Convert enum to String
+            statement.setInt(6, reservation.getSeatCount());
+            statement.setString(7, reservation.getNotes());
+            statement.setInt(8, reservation.getId());
 
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -104,13 +113,13 @@ public class ReservationDAO {
     }
 
     // Cancel a reservation by updating its status
-    public void cancelReservation(int id) {
+    public void changeReservationStatus(int id, ReservationStatus status) {
         String query = "UPDATE reservation SET status = ? WHERE id = ?";
 
         try (Connection connection = DBConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
-            statement.setString(1, ReservationStatus.CANCELED.name()); // Convert enum to String
+            statement.setString(1, status.name()); // Convert enum to String
             statement.setInt(2, id);
 
             statement.executeUpdate();

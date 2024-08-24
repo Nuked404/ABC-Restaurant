@@ -128,7 +128,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Dine-In</h5>
                             <p class="card-text">Enjoy a luxurious dining experience with our carefully curated menu.</p>
-                            <a href="#" class="btn btn-primary">Reserve Now</a>
+                            <a href="#" class="btn btn-dark">Reserve Now</a>
                         </div>
                     </div>
                 </div>
@@ -138,7 +138,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Delivery</h5>
                             <p class="card-text">Order your favorite dishes and get them delivered to your doorstep.</p>
-                            <a href="#" class="btn btn-primary">Order Now</a>
+                            <a href="#" class="btn btn-dark">Order Now</a>
                         </div>
                     </div>
                 </div>
@@ -148,7 +148,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Takeaway</h5>
                             <p class="card-text">Pick up your order on the go for a quick and convenient meal.</p>
-                            <a href="#" class="btn btn-primary">Order Now</a>
+                            <a href="#" class="btn btn-dark">Order Now</a>
                         </div>
                     </div>
                 </div>

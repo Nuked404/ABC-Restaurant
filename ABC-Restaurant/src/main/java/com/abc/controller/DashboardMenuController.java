@@ -45,7 +45,7 @@ public class DashboardMenuController extends HttpServlet {
 		
 		String action = request.getParameter("action");
 		
-		if ((action != null) &&action.equals("PrepupdateMenuItem")) {
+		if ((action != null) &&action.equals("editMenuItem")) {
 			int id = Integer.parseInt(request.getParameter("menuItemId"));
 	        try {
 	            MenuItem menuItem = menuItemService.getMenuItemById(id);
@@ -56,7 +56,7 @@ public class DashboardMenuController extends HttpServlet {
 	        }
 		}		
 		
-		request.getRequestDispatcher("WEB-INF/view/dashboardmenu.jsp").forward(request, response);
+		request.getRequestDispatcher("WEB-INF/view/admin/dashboardmenu.jsp").forward(request, response);
 		// response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

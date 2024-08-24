@@ -7,19 +7,43 @@ public class User {
     private String name;
     private String email;
     private String phone;
+    private String addressLine1; // New field for address line 1
+    private String addressLine2; // New field for address line 2
+    private String city; // New field for city
     private int nearestLocation; // foreign key from Branch
     private UserRole role;
+    private String password;
 
+    // Default constructor
     public User() {}
 
-    public User(int id, String name, String email, String phone, int nearestLocation, UserRole role) {
+    // Parameterized constructor
+    public User(int id, String name, String email, String phone, String addressLine1, String addressLine2, String city, int nearestLocation, UserRole role, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
+        this.addressLine1 = addressLine1;
+        this.addressLine2 = addressLine2;
+        this.city = city;
         this.nearestLocation = nearestLocation;
         this.role = role;
+        this.password = password;
     }
+    
+    public User(String name, String email, String phone, String addressLine1, String addressLine2, String city, int nearestLocation, UserRole role, String password) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.addressLine1 = addressLine1;
+        this.addressLine2 = addressLine2;
+        this.city = city;
+        this.nearestLocation = nearestLocation;
+        this.role = role;
+        this.password = password;
+    }
+
+    // Getters and Setters for all fields
 
     public int getId() {
         return id;
@@ -53,6 +77,30 @@ public class User {
         this.phone = phone;
     }
 
+    public String getAddressLine1() {
+        return addressLine1;
+    }
+
+    public void setAddressLine1(String addressLine1) {
+        this.addressLine1 = addressLine1;
+    }
+
+    public String getAddressLine2() {
+        return addressLine2;
+    }
+
+    public void setAddressLine2(String addressLine2) {
+        this.addressLine2 = addressLine2;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     public int getNearestLocation() {
         return nearestLocation;
     }
@@ -67,5 +115,13 @@ public class User {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+    
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

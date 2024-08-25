@@ -28,6 +28,24 @@
   	<description></description>
   	<servlet-class>com.abc.controller.DashboardLocationController</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>ManageAccountController</servlet-name>
+  	<display-name>ManageAccountController</display-name>
+  	<description></description>
+  	<servlet-class>com.abc.controller.ManageAccountController</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>DashboardEmployeeManagementController</servlet-name>
+  	<display-name>DashboardEmployeeManagementController</display-name>
+  	<description></description>
+  	<servlet-class>com.abc.controller.DashboardEmployeeManagementController</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>MenuController</servlet-name>
+  	<display-name>MenuController</display-name>
+  	<description></description>
+  	<servlet-class>com.abc.controller.MenuController</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>DashboardMainController</servlet-name>
   	<url-pattern>/AdminDashboard</url-pattern>
@@ -43,5 +61,17 @@
   <servlet-mapping>
   	<servlet-name>DashboardLocationController</servlet-name>
   	<url-pattern>/DashboardLocation</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ManageAccountController</servlet-name>
+  	<url-pattern>/ManageAccount</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>DashboardEmployeeManagementController</servlet-name>
+  	<url-pattern>/DashEmployeeManagement</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>MenuController</servlet-name>
+  	<url-pattern>/Menu</url-pattern>
   </servlet-mapping>
 </web-app>

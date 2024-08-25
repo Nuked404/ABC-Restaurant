@@ -24,6 +24,8 @@ public class DashboardMenuController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private MenuItemService menuItemService;
+	
+	private String mainFile = "WEB-INF/view/admin/dashboardmenu.jsp";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -56,7 +58,7 @@ public class DashboardMenuController extends HttpServlet {
 	        }
 		}		
 		
-		request.getRequestDispatcher("WEB-INF/view/admin/dashboardmenu.jsp").forward(request, response);
+		request.getRequestDispatcher(mainFile).forward(request, response);
 		// response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

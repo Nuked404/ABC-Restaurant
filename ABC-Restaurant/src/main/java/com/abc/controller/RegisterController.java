@@ -24,6 +24,8 @@ public class RegisterController extends HttpServlet {
 
 	private BranchService branchService;
 	private UserService userService;
+	
+	private String mainFile = "WEB-INF/view/register.jsp";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -52,7 +54,7 @@ public class RegisterController extends HttpServlet {
 			return;
 		}
 
-		request.getRequestDispatcher("WEB-INF/view/register.jsp").forward(request, response);
+		request.getRequestDispatcher(mainFile).forward(request, response);
 		// response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -92,7 +94,7 @@ public class RegisterController extends HttpServlet {
 		// Check if passwords match
 		if (!password.equals(confirmPassword)) {
 			request.setAttribute("errorMessage", "Passwords do not match.");
-			request.getRequestDispatcher("register.jsp").forward(request, response);
+			request.getRequestDispatcher(mainFile).forward(request, response);
 			return;
 		}
 

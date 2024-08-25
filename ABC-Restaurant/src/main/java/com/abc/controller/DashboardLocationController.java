@@ -21,6 +21,8 @@ public class DashboardLocationController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private BranchService branchService;
+	
+	private String mainFile = "WEB-INF/view/admin/dashboardlocation.jsp";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -61,7 +63,7 @@ public class DashboardLocationController extends HttpServlet {
 			}
 		}
 		
-		request.getRequestDispatcher("WEB-INF/view/admin/dashboardlocation.jsp").forward(request, response);
+		request.getRequestDispatcher(mainFile).forward(request, response);
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

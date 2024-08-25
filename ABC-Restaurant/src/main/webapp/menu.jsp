@@ -12,6 +12,9 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
 	rel="stylesheet">
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+	rel="stylesheet">
 <style>
 body {
 	background-color: #f8f9fa;
@@ -75,106 +78,41 @@ table th, table td {
 </style>
 </head>
 <body>
-	<!-- Sticky Navbar -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+
+	<!-- Navbar -->
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="#">ABC Restaurant</a>
+			<!-- Brand -->
+			<a class="navbar-brand" href="#">BrandName</a>
+
+			<!-- Toggler/collapsing button -->
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarNav"
 				aria-controls="navbarNav" aria-expanded="false"
 				aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
+
+			<!-- Navbar links -->
 			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item"><a class="nav-link" aria-current="page"
-						href="AdminDashboard">Dashboard</a></li>
-					<li class="nav-item"><a class="nav-link active"
-						href="DashboardMenu">Manage Menu</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Manage
-							Users</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="DashboardLocation">Manage Locations</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Reports</a>
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item"><a class="nav-link active" href="#">Home</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="#">Features</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="#">Pricing</a>
+					</li>
+					<li class="nav-item">
+						<!-- Cart Icon with Number Badge --> <a class="nav-link" href="#">
+							<i class="fas fa-shopping-cart"></i> <!-- Badge for number of items -->
+							<span class="badge bg-danger" id="cart-count">3</span>
+					</a>
 					</li>
 				</ul>
 			</div>
 		</div>
 	</nav>
 
-	<div class="container" style="margin-top: 50px;">
-		<div class="row">
-			<div class="cust-container">
-				<h1>Add Menu Item</h1>
-			</div>
-		</div>
-	</div>
-
-	<div class="container">
-		<div class="row cust-container">
-			<div class="form-container">
-				<h4>${menuItem != null ? 'Update Menu Item' : 'Add Menu Item'}</h4>
-				<form
-					action="DashboardMenu?action=${menuItem != null ? 'updateMenuItem' : 'addMenuItem'}"
-					method="post" enctype="multipart/form-data">
-					<input type="hidden" name="UpdateMenuid"
-						value="${menuItem != null ? menuItem.id : ''}">
-
-					<div class="mb-3">
-						<label for="name" class="form-label">Name</label> <input
-							type="text" class="form-control" id="name" name="AddMenuItemname"
-							value="${menuItem != null ? menuItem.name : ''}" required>
-					</div>
-
-					<div class="mb-3">
-						<label for="category" class="form-label">Category</label> <select
-							class="form-select" id="category" name="AddMenuItemcategory"
-							required>
-							<option value="Appetizer"
-								${menuItem != null && menuItem.category == 'Appetizer' ? 'selected' : ''}>Appetizer</option>
-							<option value="Main Course"
-								${menuItem != null && menuItem.category == 'Main Course' ? 'selected' : ''}>Main
-								Course</option>
-							<option value="Dessert"
-								${menuItem != null && menuItem.category == 'Dessert' ? 'selected' : ''}>Dessert</option>
-							<option value="Beverage"
-								${menuItem != null && menuItem.category == 'Beverage' ? 'selected' : ''}>Beverage</option>
-						</select>
-					</div>
-
-					<div class="mb-3">
-						<label for="price" class="form-label">Price</label> <input
-							type="number" step="0.01" class="form-control" id="price"
-							name="AddMenuItemprice"
-							value="${menuItem != null ? menuItem.price : ''}" required>
-					</div>
-
-					<div class="mb-3">
-						<label for="description" class="form-label">Description</label>
-						<textarea class="form-control" id="description"
-							name="AddMenuItemdescription" rows="3" required>${menuItem != null ? menuItem.description : ''}</textarea>
-					</div>
-
-					<div class="mb-3">
-						<label for="image" class="form-label">Image</label> <input
-							type="file" class="form-control" id="image"
-							name="AddMenuItemimage" accept="image/*">
-						<c:if
-							test="${menuItem != null && menuItem.imagePath != null && !menuItem.imagePath.isEmpty()}">
-							<div class="mt-3">
-								<img
-									src="${pageContext.request.contextPath}/${menuItem.imagePath}"
-									alt="Menu Item Image" class="img-thumbnail"
-									style="max-width: 200px;">
-							</div>
-						</c:if>
-					</div>
-
-					<button type="submit" class="btn btn-custom w-100">${menuItem != null ? 'Update Menu Item' : 'Add Menu Item'}</button>
-				</form>
-			</div>
-		</div>
-	</div>
 
 	<div class="container" style="margin-top: 50px;">
 		<div class="row">
@@ -221,17 +159,19 @@ table th, table td {
 											<p class="card-text">${item.description}</p>
 											<p class="card-text">
 												<strong>Rs.</strong>${item.price}/=</p>
-											<form action="DashboardMenu?action=editMenuItem"
-												method="post" style="display: inline;">
+											<form action="Cart?action=addItem" method="post"
+												style="display: inline;">
+												<!-- Hidden input to pass the Menu Item ID -->
 												<input type="hidden" name="menuItemId" value="${item.id}" />
-												<button class="btn btn-update" type="submit">Edit</button>
-											</form>
-											<!-- Delete Button with Menu Item ID -->
-											<form action="DashboardMenu?action=deleteMenuItem"
-												method="post" style="display: inline;">
-												<input type="hidden" name="menuItemId" value="${item.id}" />
-												<button class="btn btn-delete" type="submit"
-													onclick="return confirm('Are you sure you want to delete this entry? This action cannot be undone.');">Delete</button>
+
+												<!-- Quantity Input -->
+												<input type="number" name="quantity" value="1" min="1"
+													class="form-control"
+													style="width: 70px; display: inline-block;" />
+
+												<!-- Add to Cart Button -->
+												<button class="btn btn-primary" type="submit">Add
+													to Cart</button>
 											</form>
 										</div>
 									</div>
@@ -249,9 +189,6 @@ table th, table td {
 		</c:forEach>
 	</div>
 	</div>
-
-
-
 
 	<!-- Bootstrap JS Bundle with Popper -->
 	<script

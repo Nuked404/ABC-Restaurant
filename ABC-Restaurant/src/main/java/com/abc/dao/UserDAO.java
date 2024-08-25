@@ -139,7 +139,7 @@ public class UserDAO {
 
     // Update user information
     public void updateUser(User user) {
-        String query = "UPDATE user SET name = ?, email = ?, phone = ?, address_line1 = ?, address_line2 = ?, city = ?, nearest_location = ?, role = ? WHERE id = ?";
+        String query = "UPDATE user SET name = ?, email = ?, phone = ?, address_line1 = ?, address_line2 = ?, city = ?, nearest_location = ? WHERE id = ?";
 
         try (Connection connection = DBConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -151,8 +151,25 @@ public class UserDAO {
             statement.setString(5, user.getAddressLine2()); // New field
             statement.setString(6, user.getCity()); // New field
             statement.setInt(7, user.getNearestLocation());
-            statement.setString(8, user.getRole().name());
-            statement.setInt(9, user.getId());
+            statement.setInt(8, user.getId());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void updateStaff(User user) {
+        String query = "UPDATE user SET name = ?, email = ?, phone = ?, nearest_location = ? WHERE id = ?";
+
+        try (Connection connection = DBConnectionFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getEmail());
+            statement.setString(3, user.getPhone());
+            statement.setInt(4, user.getNearestLocation());
+            statement.setInt(5, user.getId());
 
             statement.executeUpdate();
         } catch (SQLException e) {

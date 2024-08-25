@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class DashboardMainController extends HttpServlet {
 	private static final long serialVersionUID = 1L;	
+	
+	private String mainFile = "WEB-INF/view/admin/dashboard.jsp";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -31,7 +33,7 @@ public class DashboardMainController extends HttpServlet {
 		// Always need to show the list
 		// TODO Auto-generated method stub
 		// response.getWriter().append("Served at: ").append(request.getContextPath());
-		request.getRequestDispatcher("WEB-INF/view/admin/dashboard.jsp").forward(request, response);
+		request.getRequestDispatcher(mainFile).forward(request, response);
 	}
 
 	/**

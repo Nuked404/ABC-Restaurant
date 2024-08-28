@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -75,37 +76,51 @@ body {
 table th, table td {
 	vertical-align: middle;
 }
+
+.navbar {
+	background-color: #343a40;
+}
+
+.navbar .nav-link:hover {
+	color: #ffc107;
+}
+
+.navbar-brand, .navbar-nav .nav-link {
+	color: #ffffff;
+}
 </style>
 </head>
 <body>
 
 	<!-- Navbar -->
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<div class="container-fluid">
-			<!-- Brand -->
-			<a class="navbar-brand" href="#">BrandName</a>
-
-			<!-- Toggler/collapsing button -->
+	<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+		<div class="container">
+			<a class="navbar-brand" href="#">ABC Restaurant</a>
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarNav"
 				aria-controls="navbarNav" aria-expanded="false"
 				aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-
-			<!-- Navbar links -->
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav ms-auto">
-					<li class="nav-item"><a class="nav-link active" href="#">Home</a>
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="#">Home</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Menu</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Gallery</a>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="#">Features</a>
+					<li class="nav-item"><a class="nav-link" href="#">Reservations</a>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="#">Pricing</a>
+					<li class="nav-item"><a class="nav-link" href="#">About Us</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="#">Contact</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="login.jsp">Login</a>
 					</li>
 					<li class="nav-item">
 						<!-- Cart Icon with Number Badge --> <a class="nav-link" href="#">
 							<i class="fas fa-shopping-cart"></i> <!-- Badge for number of items -->
-							<span class="badge bg-danger" id="cart-count">3</span>
+							<span class="badge bg-danger" id="cart-count">${cartItemCount}</span>
 					</a>
 					</li>
 				</ul>
@@ -114,7 +129,7 @@ table th, table td {
 	</nav>
 
 
-	<div class="container" style="margin-top: 50px;">
+	<div class="container" style="margin-top: 80px;">
 		<div class="row">
 			<div class="cust-container">
 				<h1>Menu Items</h1>
@@ -159,7 +174,7 @@ table th, table td {
 											<p class="card-text">${item.description}</p>
 											<p class="card-text">
 												<strong>Rs.</strong>${item.price}/=</p>
-											<form action="Cart?action=addItem" method="post"
+											<form action="Menu?action=addToCart" method="post"
 												style="display: inline;">
 												<!-- Hidden input to pass the Menu Item ID -->
 												<input type="hidden" name="menuItemId" value="${item.id}" />

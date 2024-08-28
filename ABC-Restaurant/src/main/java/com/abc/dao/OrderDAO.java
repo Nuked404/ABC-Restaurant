@@ -11,26 +11,34 @@ import java.util.List;
 public class OrderDAO {
 
     // Add an order to the database
-    public void addOrder(Order order) {
-        String query = "INSERT INTO `order` (user_id, status, total) VALUES (?, ?, ?)";
+    public int addOrder(Order order) throws SQLException {
+        String sql = "INSERT INTO orders (user_id, status, total, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = DBConnectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-        try (Connection connection = DBConnectionFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+            ps.setInt(1, order.getUserId());
+            ps.setString(2, order.getStatus().name());
+            ps.setBigDecimal(3, order.getTotal());
+            ps.setTimestamp(4, order.getCreatedAt());
+            ps.setTimestamp(5, order.getUpdatedAt());
 
-            statement.setInt(1, order.getUserId());
-            statement.setString(2, order.getStatus().name()); // Convert enum to String
-            statement.setBigDecimal(3, order.getTotal());
+            ps.executeUpdate();
 
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+            // Retrieve the generated order ID
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getInt(1); // Return the generated ID
+                } else {
+                    throw new SQLException("Creating order failed, no ID obtained.");
+                }
+            }
         }
     }
 
     // Retrieve an order by its ID
     public Order getOrderById(int id) {
         Order order = null;
-        String query = "SELECT * FROM `order` WHERE id = ?";
+        String query = "SELECT * FROM `orders` WHERE id = ?";
 
         try (Connection connection = DBConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -43,7 +51,9 @@ public class OrderDAO {
                     resultSet.getInt("id"),
                     resultSet.getInt("user_id"),
                     OrderStatus.valueOf(resultSet.getString("status")), // Convert String to enum
-                    resultSet.getBigDecimal("total")
+                    resultSet.getBigDecimal("total"),
+                    resultSet.getTimestamp("created_at"),
+                    resultSet.getTimestamp("updated_at")
                 );
             }
         } catch (SQLException e) {
@@ -56,7 +66,7 @@ public class OrderDAO {
     // Retrieve all orders from the database
     public List<Order> getAllOrders() {
         List<Order> orders = new ArrayList<>();
-        String query = "SELECT * FROM `order`";
+        String query = "SELECT * FROM `orders`";
 
         try (Connection connection = DBConnectionFactory.getConnection();
              Statement statement = connection.createStatement();
@@ -67,7 +77,9 @@ public class OrderDAO {
                     resultSet.getInt("id"),
                     resultSet.getInt("user_id"),
                     OrderStatus.valueOf(resultSet.getString("status")), // Convert String to enum
-                    resultSet.getBigDecimal("total")
+                    resultSet.getBigDecimal("total"),
+                    resultSet.getTimestamp("created_at"),
+                    resultSet.getTimestamp("updated_at")
                 ));
             }
         } catch (SQLException e) {
@@ -79,34 +91,81 @@ public class OrderDAO {
 
     // Update an existing order in the database
     public void updateOrder(Order order) {
-        String query = "UPDATE `order` SET status = ?, total = ? WHERE id = ?";
+        String query = "UPDATE `orders` SET status = ?, total = ?, updated_at = ? WHERE id = ?";
 
         try (Connection connection = DBConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setString(1, order.getStatus().name()); // Convert enum to String
             statement.setBigDecimal(2, order.getTotal());
-            statement.setInt(3, order.getId());
+            statement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+            statement.setInt(4, order.getId());
 
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+    
+    public void updateOrderStatus(int orderId, OrderStatus status) throws SQLException {
+        String sql = "UPDATE orders SET status = ?, updated_at = NOW() WHERE id = ?";
+
+        try (Connection conn = DBConnectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, status.name());
+            ps.setInt(2, orderId);
+
+            int affectedRows = ps.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Updating order status failed, no rows affected.");
+            }
+        }
+    }
 
     // Cancel an order by updating its status
     public void cancelOrder(int id) {
-        String query = "UPDATE `order` SET status = ? WHERE id = ?";
+        String query = "UPDATE `orders` SET status = ?, updated_at = ? WHERE id = ?";
 
         try (Connection connection = DBConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setString(1, OrderStatus.CANCELED.name()); // Convert enum to String
-            statement.setInt(2, id);
+            statement.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
+            statement.setInt(3, id);
 
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    
+    public List<Order> getOrdersByUserId(int userId) {
+        List<Order> orders = new ArrayList<>();
+        String query = "SELECT * FROM orders WHERE user_id = ?";
+
+        try (Connection connection = DBConnectionFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Order order = new Order(
+                    resultSet.getInt("id"),
+                    resultSet.getInt("user_id"),
+                    OrderStatus.valueOf(resultSet.getString("status")), // Convert String to enum
+                    resultSet.getBigDecimal("total"),
+                    resultSet.getTimestamp("created_at"),
+                    resultSet.getTimestamp("updated_at")
+                );
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return orders;
     }
 }

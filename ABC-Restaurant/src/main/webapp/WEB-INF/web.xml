@@ -46,6 +46,30 @@
   	<description></description>
   	<servlet-class>com.abc.controller.MenuController</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>CartController</servlet-name>
+  	<display-name>CartController</display-name>
+  	<description></description>
+  	<servlet-class>com.abc.controller.CartController</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>DashboardOrderController</servlet-name>
+  	<display-name>DashboardOrderController</display-name>
+  	<description></description>
+  	<servlet-class>com.abc.controller.DashboardOrderController</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>ViewOrderController</servlet-name>
+  	<display-name>ViewOrderController</display-name>
+  	<description></description>
+  	<servlet-class>com.abc.controller.ViewOrderController</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>OrdersController</servlet-name>
+  	<display-name>OrdersController</display-name>
+  	<description></description>
+  	<servlet-class>com.abc.controller.OrdersController</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>DashboardMainController</servlet-name>
   	<url-pattern>/AdminDashboard</url-pattern>
@@ -73,5 +97,21 @@
   <servlet-mapping>
   	<servlet-name>MenuController</servlet-name>
   	<url-pattern>/Menu</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>CartController</servlet-name>
+  	<url-pattern>/Cart</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>DashboardOrderController</servlet-name>
+  	<url-pattern>/DashboardOrder</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ViewOrderController</servlet-name>
+  	<url-pattern>/ViewOrder</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>OrdersController</servlet-name>
+  	<url-pattern>/Orders</url-pattern>
   </servlet-mapping>
 </web-app>

@@ -101,4 +101,23 @@ public class BranchDAO {
             e.printStackTrace();
         }
     }
+    
+    public int getTotalSeats(int branchId) {
+        String query = "SELECT max_seats FROM branch WHERE id = ?";
+
+        try (Connection connection = DBConnectionFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, branchId);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getInt("max_seats");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Consider using a logging framework here
+        }
+
+        return 0;
+    }
 }

@@ -12,7 +12,6 @@ import com.abc.service.MenuItemService;
 import com.abc.service.UserService;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +33,7 @@ public class ViewOrderController extends HttpServlet {
     private BranchService branchService; 
     
     private String mainFile = "vieworder.jsp";
-    private String redirFile = "DashboardOrder";
+    //private String redirFile = "DashboardOrder";
        
     /**
      * @see HttpServlet#HttpServlet()

@@ -9,155 +9,152 @@ import java.util.List;
 
 public class QueryDAO {
 
-    public void addQuery(Query query) {
-        String sql = "INSERT INTO query (user_id, name, email, query) VALUES (?, ?, ?, ?)";
+	// Add a query
+	public void addQuery(Query query) {
+		String sql = "INSERT INTO query (user_id, query) VALUES (?, ?)";
 
-        try (Connection connection = DBConnectionFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+		try (Connection connection = DBConnectionFactory.getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            if (query.getUserId() != null) {
-                statement.setInt(1, query.getUserId());
-            } else {
-                statement.setNull(1, Types.INTEGER);
-            }
+			if (query.getUserId() != null) {
+				statement.setInt(1, query.getUserId());
+			} else {
+				statement.setNull(1, Types.INTEGER);
+			}
 
-            statement.setString(2, query.getName());
-            statement.setString(3, query.getEmail());
-            statement.setString(4, query.getQuery());
+			statement.setString(2, query.getQuery());
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+	// Get queries by user ID
+	public List<Query> getQueriesByUserId(int userId) {
+		List<Query> queries = new ArrayList<>();
+		String sql = "SELECT * FROM query WHERE user_id = ?";
 
-    public List<Query> getQueriesByUserId(int userId) {
-        List<Query> queries = new ArrayList<>();
-        String sql = "SELECT * FROM query WHERE user_id = ?";
+		try (Connection connection = DBConnectionFactory.getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
 
-        try (Connection connection = DBConnectionFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setInt(1, userId);
+			ResultSet resultSet = statement.executeQuery();
 
-            statement.setInt(1, userId);
-            ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				queries.add(new Query(resultSet.getInt("id"), resultSet.getInt("user_id"), resultSet.getString("query"),
+						resultSet.getString("response")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-            while (resultSet.next()) {
-                queries.add(new Query(
-                    resultSet.getInt("id"),
-                    resultSet.getInt("user_id"),
-                    resultSet.getString("name"),
-                    resultSet.getString("email"),
-                    resultSet.getString("query"),
-                    resultSet.getString("response")
-                ));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+		return queries;
+	}
 
-        return queries;
-    }
+	// Get all queries
+	public List<Query> getAllQueries() {
+		List<Query> queries = new ArrayList<>();
+		String sql = "SELECT * FROM query";
 
-    public List<Query> getAllExternalQueries() {
-        List<Query> queries = new ArrayList<>();
-        String sql = "SELECT * FROM query WHERE user_id IS NULL";
+		try (Connection connection = DBConnectionFactory.getConnection();
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery(sql)) {
 
-        try (Connection connection = DBConnectionFactory.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
+			while (resultSet.next()) {
+				queries.add(new Query(resultSet.getInt("id"), resultSet.getObject("user_id", Integer.class),
+						resultSet.getString("query"), resultSet.getString("response")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-            while (resultSet.next()) {
-                queries.add(new Query(
-                    resultSet.getInt("id"),
-                    null,
-                    resultSet.getString("name"),
-                    resultSet.getString("email"),
-                    resultSet.getString("query"),
-                    resultSet.getString("response")
-                ));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+		return queries;
+	}
+	
+	public Query getQueryById(int id) {
+	    Query query = null;
+	    String sql = "SELECT * FROM query WHERE id = ?";
 
-        return queries;
-    }
+	    try (Connection connection = DBConnectionFactory.getConnection();
+	         PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
-    public void updateQuery(Query query) {
-        String sql = "UPDATE query SET response = ? WHERE id = ?";
+	        preparedStatement.setInt(1, id);
+	        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+	            if (resultSet.next()) {
+	                query = new Query(
+	                    resultSet.getInt("id"),
+	                    resultSet.getObject("user_id", Integer.class),
+	                    resultSet.getString("query"),
+	                    resultSet.getString("response")
+	                );
+	            }
+	        }
 
-        try (Connection connection = DBConnectionFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 
-            statement.setString(1, query.getResponse());
-            statement.setInt(2, query.getId());
+	    return query;
+	}
 
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
-    public void deleteQuery(int id) {
-        String sql = "DELETE FROM query WHERE id = ?";
+	// Update a query
+	public void updateQuery(int queryId, String query) {
+		String sql = "UPDATE query SET query = ? WHERE id = ?";
+		try (Connection connection = DBConnectionFactory.getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setString(1, query);
+			statement.setInt(2, queryId);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
-        try (Connection connection = DBConnectionFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+	// Update the response of a query
+	public void updateResponse(int queryId, String response) {
+		String sql = "UPDATE query SET response = ? WHERE id = ?";
+		try (Connection connection = DBConnectionFactory.getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setString(1, response);
+			statement.setInt(2, queryId);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
-            statement.setInt(1, id);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public List<Query> getAllQueries() {
-        List<Query> queries = new ArrayList<>();
-        String sql = "SELECT * FROM query";
+	// Get unresponded queries
+	public List<Query> getUnrespondedQueries() {
+		List<Query> queries = new ArrayList<>();
+		String sql = "SELECT * FROM query WHERE response IS NULL OR response = ''";
 
-        try (Connection connection = DBConnectionFactory.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
+		try (Connection connection = DBConnectionFactory.getConnection();
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery(sql)) {
 
-            while (resultSet.next()) {
-                queries.add(new Query(
-                    resultSet.getInt("id"),
-                    resultSet.getObject("user_id", Integer.class),
-                    resultSet.getString("name"),
-                    resultSet.getString("email"),
-                    resultSet.getString("query"),
-                    resultSet.getString("response")
-                ));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+			while (resultSet.next()) {
+				queries.add(new Query(resultSet.getInt("id"), resultSet.getObject("user_id", Integer.class),
+						resultSet.getString("query"), resultSet.getString("response")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-        return queries;
-    }
-    
-    public List<Query> getUnrespondedQueries() {
-        List<Query> queries = new ArrayList<>();
-        String sql = "SELECT * FROM query WHERE response IS NULL OR response = ''";
+		return queries;
+	}
 
-        try (Connection connection = DBConnectionFactory.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
+	// Delete a query
+	public void deleteQuery(int id) {
+		String sql = "DELETE FROM query WHERE id = ?";
 
-            while (resultSet.next()) {
-                queries.add(new Query(
-                    resultSet.getInt("id"),
-                    resultSet.getObject("user_id", Integer.class),
-                    resultSet.getString("name"),
-                    resultSet.getString("email"),
-                    resultSet.getString("query"),
-                    resultSet.getString("response")
-                ));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+		try (Connection connection = DBConnectionFactory.getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
 
-        return queries;
-    }
+			statement.setInt(1, id);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

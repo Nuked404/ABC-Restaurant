@@ -4,13 +4,11 @@ import com.abc.model.Order;
 import com.abc.model.User;
 import com.abc.enums.OrderStatus;
 import com.abc.model.Branch;
-import com.abc.model.OrderItem;
 import com.abc.service.OrderService;
 import com.abc.service.UserService;
 import com.abc.service.BranchService;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,17 +54,14 @@ public class OrdersController extends HttpServlet {
         List<Order> orders = orderService.getOrdersByUserId(userId);
         Collections.reverse(orders);// For keeping the new ones at top
         Map<Integer, User> userMap = new HashMap<>();
-        Map<Integer, Branch> branchMap = new HashMap<>();
+        Map<Integer, Branch> branchMap = new HashMap<>();       
+        
+        int branchId = userService.getUserById(userId).getNearestLocation();
+        User user = userService.getUserById(userId);
+        Branch branch = branchService.getBranchById(branchId);
 
-        // Fetch user details and branch details for each order
-        for (Order order : orders) {
-            int branchId = userService.getUserById(userId).getNearestLocation();
-            User user = userService.getUserById(userId);
-            Branch branch = branchService.getBranchById(branchId);
-
-            userMap.put(userId, user);
-            branchMap.put(branchId, branch);
-        }
+        userMap.put(userId, user);
+        branchMap.put(branchId, branch);
 
         request.setAttribute("orders", orders);
         request.setAttribute("userMap", userMap);

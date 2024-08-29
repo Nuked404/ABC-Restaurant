@@ -27,7 +27,23 @@ public class Reservation {
         this.notes = notes;
     }
 
-    // Getters and Setters
+
+
+	public Reservation(int id, int userId, int branchId, LocalDate reservationDate, TimeFrame timeFrame, int seatCount,
+			String notes) {
+		super();
+		this.id = id;
+		this.userId = userId;
+		this.branchId = branchId;
+		this.reservationDate = reservationDate;
+		this.timeFrame = timeFrame;
+		this.seatCount = seatCount;
+		this.notes = notes;
+	}
+
+
+
+	// Getters and Setters
     public int getId() {
         return id;
     }

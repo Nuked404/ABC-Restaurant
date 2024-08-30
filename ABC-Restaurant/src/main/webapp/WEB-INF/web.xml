@@ -8,13 +8,13 @@
   	<servlet-name>DashboardMainController</servlet-name>
   	<display-name>DashboardMainController</display-name>
   	<description></description>
-  	<servlet-class>com.abc.controller.DashboardMainController</servlet-class>
+  	<servlet-class>com.abc.controller.Admin.DashboardMainController</servlet-class>
   </servlet>
   <servlet>
   	<servlet-name>DashboardMenuController</servlet-name>
   	<display-name>DashboardMenuController</display-name>
   	<description></description>
-  	<servlet-class>com.abc.controller.DashboardMenuController</servlet-class>
+  	<servlet-class>com.abc.controller.Admin.DashboardMenuController</servlet-class>
   </servlet>
   <servlet>
   	<servlet-name>RegisterController</servlet-name>
@@ -26,7 +26,7 @@
   	<servlet-name>DashboardLocationController</servlet-name>
   	<display-name>DashboardLocationController</display-name>
   	<description></description>
-  	<servlet-class>com.abc.controller.DashboardLocationController</servlet-class>
+  	<servlet-class>com.abc.controller.Admin.DashboardLocationController</servlet-class>
   </servlet>
   <servlet>
   	<servlet-name>ManageAccountController</servlet-name>
@@ -35,10 +35,10 @@
   	<servlet-class>com.abc.controller.ManageAccountController</servlet-class>
   </servlet>
   <servlet>
-  	<servlet-name>DashboardEmployeeManagementController</servlet-name>
-  	<display-name>DashboardEmployeeManagementController</display-name>
+  	<servlet-name>DashboardEmployeeController</servlet-name>
+  	<display-name>DashboardEmployeeController</display-name>
   	<description></description>
-  	<servlet-class>com.abc.controller.DashboardEmployeeManagementController</servlet-class>
+  	<servlet-class>com.abc.controller.Admin.DashboardEmployeeController</servlet-class>
   </servlet>
   <servlet>
   	<servlet-name>MenuController</servlet-name>
@@ -56,7 +56,7 @@
   	<servlet-name>DashboardOrderController</servlet-name>
   	<display-name>DashboardOrderController</display-name>
   	<description></description>
-  	<servlet-class>com.abc.controller.DashboardOrderController</servlet-class>
+  	<servlet-class>com.abc.controller.Admin.DashboardOrderController</servlet-class>
   </servlet>
   <servlet>
   	<servlet-name>ViewOrderController</servlet-name>
@@ -77,10 +77,10 @@
   	<servlet-class>com.abc.controller.QueryController</servlet-class>
   </servlet>
   <servlet>
-  	<servlet-name>DashboardQueryManagementController</servlet-name>
-  	<display-name>DashboardQueryManagementController</display-name>
+  	<servlet-name>DashboardQueryController</servlet-name>
+  	<display-name>DashboardQueryController</display-name>
   	<description></description>
-  	<servlet-class>com.abc.controller.DashboardQueryManagementController</servlet-class>
+  	<servlet-class>com.abc.controller.Admin.DashboardQueryController</servlet-class>
   </servlet>
   <servlet>
   	<servlet-name>ReservationController</servlet-name>
@@ -89,10 +89,10 @@
   	<servlet-class>com.abc.controller.ReservationController</servlet-class>
   </servlet>
   <servlet>
-  	<servlet-name>DashboardReservationManagementController</servlet-name>
-  	<display-name>DashboardReservationManagementController</display-name>
+  	<servlet-name>DashboardReservationController</servlet-name>
+  	<display-name>DashboardReservationController</display-name>
   	<description></description>
-  	<servlet-class>com.abc.controller.DashboardReservationManagementController</servlet-class>
+  	<servlet-class>com.abc.controller.Admin.DashboardReservationController</servlet-class>
   </servlet>
   <servlet-mapping>
   	<servlet-name>DashboardMainController</servlet-name>
@@ -115,7 +115,7 @@
   	<url-pattern>/ManageAccount</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>DashboardEmployeeManagementController</servlet-name>
+  	<servlet-name>DashboardEmployeeController</servlet-name>
   	<url-pattern>/DashEmployeeManagement</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
@@ -143,7 +143,7 @@
   	<url-pattern>/Query</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>DashboardQueryManagementController</servlet-name>
+  	<servlet-name>DashboardQueryController</servlet-name>
   	<url-pattern>/DashboardQueryManagement</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
@@ -151,7 +151,7 @@
   	<url-pattern>/Reservation</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>DashboardReservationManagementController</servlet-name>
+  	<servlet-name>DashboardReservationController</servlet-name>
   	<url-pattern>/DashboardReservationManagement</url-pattern>
   </servlet-mapping>
 </web-app>

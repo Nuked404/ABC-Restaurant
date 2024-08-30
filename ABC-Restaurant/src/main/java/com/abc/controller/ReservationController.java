@@ -29,6 +29,7 @@ public class ReservationController extends HttpServlet {
 	private ReservationService reservationService;
 	private BranchService branchService;
 	private String reservationServlet = "Reservation";
+	private String mainFile = "WEB-INF/view/reservation.jsp";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -85,7 +86,7 @@ public class ReservationController extends HttpServlet {
 		Collections.reverse(reservations);
 		request.setAttribute("reservations", reservations);
 
-		request.getRequestDispatcher("reservation.jsp").forward(request, response);
+		request.getRequestDispatcher(mainFile).forward(request, response);
 	}
 
 	/**

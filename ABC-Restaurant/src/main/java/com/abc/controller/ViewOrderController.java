@@ -32,7 +32,7 @@ public class ViewOrderController extends HttpServlet {
     private UserService userService;
     private BranchService branchService; 
     
-    private String mainFile = "vieworder.jsp";
+    private String mainFile = "WEB-INF/view/vieworder.jsp";
     //private String redirFile = "DashboardOrder";
        
     /**

@@ -28,6 +28,8 @@ public class OrdersController extends HttpServlet {
 	private OrderService orderService;
 	private UserService userService;
 	private BranchService branchService;
+	
+	private String mainFile = "WEB-INF/view/orders.jsp";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -67,7 +69,7 @@ public class OrdersController extends HttpServlet {
         request.setAttribute("userMap", userMap);
         request.setAttribute("branchMap", branchMap);
 
-        request.getRequestDispatcher("orders.jsp").forward(request, response);
+        request.getRequestDispatcher(mainFile).forward(request, response);
 	}
 
 	/**

@@ -23,7 +23,7 @@ public class MenuController extends HttpServlet {
 
 	private MenuItemService menuItemService;
 
-	private String mainFile = "menu.jsp";
+	private String mainFile = "WEB-INF/view/menu.jsp";
 
 	/**
 	 * @see HttpServlet#HttpServlet()

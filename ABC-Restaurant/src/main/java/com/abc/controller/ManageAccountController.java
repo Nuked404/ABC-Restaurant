@@ -24,7 +24,7 @@ public class ManageAccountController extends HttpServlet {
 	private BranchService branchService;
 	private UserService userService;
 	
-	private String mainFile = "manageaccount.jsp";
+	private String mainFile = "WEB-INF/view/account.jsp";
        
     /**
      * @see HttpServlet#HttpServlet()

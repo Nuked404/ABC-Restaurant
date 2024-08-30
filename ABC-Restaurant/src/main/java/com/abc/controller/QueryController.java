@@ -20,6 +20,7 @@ public class QueryController extends HttpServlet {
 
 	private QueryService queryService;
 	private String controllerUrl = "Query";
+	private String mainFile = "WEB-INF/view/query.jsp";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -51,7 +52,7 @@ public class QueryController extends HttpServlet {
 		List<Query> userQueries = queryService.getQueriesByUserId(userId);
 		Collections.reverse(userQueries);
 		request.setAttribute("queries", userQueries);
-		request.getRequestDispatcher("query.jsp").forward(request, response);
+		request.getRequestDispatcher(mainFile).forward(request, response);
 		// response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

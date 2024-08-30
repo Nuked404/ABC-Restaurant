@@ -30,7 +30,7 @@ public class CartController extends HttpServlet {
     private OrderService orderService;
     private OrderItemService orderItemService;
     
-    private String mainFile = "cart.jsp";
+    private String mainFile = "WEB-INF/view/cart.jsp";
 
     public CartController() {
         super();

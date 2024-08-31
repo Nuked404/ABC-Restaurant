@@ -94,6 +94,12 @@
   	<description></description>
   	<servlet-class>com.abc.controller.Admin.DashboardReservationController</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>DashboardAccountController</servlet-name>
+  	<display-name>DashboardAccountController</display-name>
+  	<description></description>
+  	<servlet-class>com.abc.controller.Admin.DashboardAccountController</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>DashboardMainController</servlet-name>
   	<url-pattern>/AdminDashboard</url-pattern>
@@ -153,5 +159,9 @@
   <servlet-mapping>
   	<servlet-name>DashboardReservationController</servlet-name>
   	<url-pattern>/DashboardReservationManagement</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>DashboardAccountController</servlet-name>
+  	<url-pattern>/DashboardAccount</url-pattern>
   </servlet-mapping>
 </web-app>

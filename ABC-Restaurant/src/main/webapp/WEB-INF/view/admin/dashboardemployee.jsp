@@ -7,92 +7,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Employee Management - ABC Restaurant</title>
-<!-- Bootstrap 5 CDN -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<style>
-body {
-	background-color: #f8f9fa;
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.cust-container {
-	padding: 20px;
-	background-color: #ffffff;
-	border-radius: 8px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	margin-bottom: 30px;
-}
-
-.form-container, .table-container {
-	height: 100%;
-}
-
-.btn-custom {
-	background-color: #343a40;
-	color: #ffffff;
-}
-
-.btn-custom:hover {
-	background-color: #495057;
-}
-
-.btn-update, .btn-delete {
-	width: 100px;
-}
-
-.btn-update {
-	background-color: #ffc107;
-	color: #212529;
-}
-
-.btn-update:hover {
-	background-color: #e0a800;
-	color: #212529;
-}
-
-.btn-delete {
-	background-color: #dc3545;
-	color: #ffffff;
-}
-
-.btn-delete:hover {
-	background-color: #c82333;
-	color: #ffffff;
-}
-
-table th, table td {
-	vertical-align: middle;
-}
-</style>
+<%@ include file="/includes/admin/externstyles.jsp"%>
 </head>
 <body>
-	<!-- Sticky Navbar -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="#">ABC Restaurant</a>
-			<button class="navbar-toggler" type="button"
-				data-bs-toggle="collapse" data-bs-target="#navbarNav"
-				aria-controls="navbarNav" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item"><a class="nav-link" aria-current="page"
-						href="AdminDashboard">Dashboard</a></li>
-					<li class="nav-item"><a class="nav-link" href="DashboardMenu">Manage
-							Menu</a></li>
-					<li class="nav-item"><a class="nav-link active" href="#">Manage
-							Employees</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="DashboardLocation">Manage Locations</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Reports</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+	<%@ include file="/includes/admin/navbar.jsp"%>
 
 	<div class="container" style="margin-top: 50px;">
 		<div class="row">
@@ -103,7 +21,7 @@ table th, table td {
 	</div>
 
 	<div class="container">
-		<div class="row cust-container">
+		<div class="row">
 			<div class="form-container">
 				<h4>${uemployee != null ? "Update Employee" : "Add Employee"}</h4>
 				<form
@@ -152,7 +70,7 @@ table th, table td {
 							id="confirmPassword" name="confirmPassword"
 							${uemployee == null ? 'required' : ''}>
 					</div>
-					<button type="submit" class="btn btn-custom w-100">${uemployee != null ? "Update Employee" : "Add Employee"}</button>
+					<button type="submit" class="btn btn-dark w-100">${uemployee != null ? "Update Employee" : "Add Employee"}</button>
 				</form>
 			</div>
 		</div>
@@ -188,18 +106,18 @@ table th, table td {
 								<td>${employee.name}</td>
 								<td>${employee.email}</td>
 								<td>${employee.phone}</td>
-								<td>${employee.nearestLocation}</td>
+								<td>${branchMap[employee.nearestLocation].location}</td>
 								<td>
 									<form action="DashEmployeeManagement?action=editEmployee"
 										method="post" style="display: inline;">
 										<input type="hidden" name="employeeId" value="${employee.id}" />
-										<button class="btn btn-update" type="submit">Edit</button>
+										<button class="btn btn-dark" type="submit"><i class="fas fa-edit"></i> Edit</button>
 									</form>
 									<form action="DashEmployeeManagement?action=deleteEmployee"
 										method="post" style="display: inline;">
 										<input type="hidden" name="employeeId" value="${employee.id}" />
-										<button class="btn btn-delete" type="submit"
-											onclick="return confirm('Are you sure you want to delete this employee? This action cannot be undone.');">Delete</button>
+										<button class="btn btn-dark" type="submit"
+											onclick="return confirm('Are you sure you want to delete this employee? This action cannot be undone.');"><i class="fas fa-trash"></i> Delete</button>
 									</form>
 								</td>
 							</tr>

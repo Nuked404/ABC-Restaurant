@@ -63,10 +63,10 @@ public class DashboardReservationController extends HttpServlet {
 		for (Reservation reservation : reservations) {
 		    int userId = reservation.getUserId();
 		    User user = userService.getUserById(userId);
-		    Branch branch = branchService.getBranchById(user.getNearestLocation());
+		    Branch branch = branchService.getBranchById(reservation.getBranchId());
 
 		    userMap.put(userId, user);
-		    branchMap.put(user.getNearestLocation(), branch);
+		    branchMap.put(reservation.getBranchId(), branch);
 		}		
 		
 		

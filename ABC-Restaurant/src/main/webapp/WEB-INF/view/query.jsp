@@ -72,7 +72,7 @@
                                 <form action="Query" method="post" style="display: inline;">
                                     <input type="hidden" name="action" value="deleteQuery">
                                     <input type="hidden" name="queryId" value="${query.id}">
-                                    <button type="submit" class="btn btn-dark btn-sm"><i class="fas fa-trash"></i> Delete</button>
+                                    <button type="submit" class="btn btn-dark btn-sm"><i class="fas fa-trash" onclick="return confirm('Are you sure you want to delete this employee? This action cannot be undone.');"></i> Delete</button>
                                 </form>
                             </td>
                         </tr>

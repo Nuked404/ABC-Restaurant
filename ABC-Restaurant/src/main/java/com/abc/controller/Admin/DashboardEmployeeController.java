@@ -1,6 +1,7 @@
 package com.abc.controller.Admin;
 
 import com.abc.model.Branch;
+import com.abc.model.Order;
 import com.abc.model.User;
 import com.abc.enums.UserRole;
 import com.abc.service.BranchService;
@@ -13,7 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Servlet implementation class DashboardEmployeeManagementController
@@ -65,7 +68,14 @@ public class DashboardEmployeeController extends HttpServlet {
 		}
 
 		List<User> userList = userService.getUsersByRole(UserRole.STAFF); // Or other criteria
+		Map<Integer, Branch> branchMap = new HashMap<>();		
+		 for (User user : userList) {
+	            Branch branch = branchService.getBranchById(user.getNearestLocation());
+	            branchMap.put(user.getNearestLocation(), branch);
+	        }
+		
 		request.setAttribute("employees", userList);
+		request.setAttribute("branchMap", branchMap);
 
 		request.getRequestDispatcher(mainFile).forward(request, response);
 		// response.getWriter().append("Served at: ").append(request.getContextPath());

@@ -11,18 +11,14 @@
 <title>View Order - ABC Restaurant</title>
 <%@ include file="/includes/externstyles.jsp" %>
 <style>
-body {
-    background-color: #f8f9fa;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.container {
-    margin-top: 80px;
-}
-
 .table {
     margin-bottom: 30px;
 }
+
+.card:hover {
+	transform: scale(1);
+}
+
 </style>
 </head>
 <body>
@@ -32,7 +28,7 @@ body {
         <h2 class="my-4">Order Details</h2>
 
         <div class="card mb-4">
-            <div class="card-header">
+            <div class="card-header bg-dark text-white">
                 Order #${order.id}
             </div>
             <div class="card-body">

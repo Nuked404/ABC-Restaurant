@@ -12,15 +12,13 @@ public class OrderDAO {
 
     // Add an order to the database
     public int addOrder(Order order) throws SQLException {
-        String sql = "INSERT INTO orders (user_id, status, total, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO orders (user_id, status, total) VALUES (?, ?, ?)";
         try (Connection conn = DBConnectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setInt(1, order.getUserId());
             ps.setString(2, order.getStatus().name());
             ps.setBigDecimal(3, order.getTotal());
-            ps.setTimestamp(4, order.getCreatedAt());
-            ps.setTimestamp(5, order.getUpdatedAt());
 
             ps.executeUpdate();
 

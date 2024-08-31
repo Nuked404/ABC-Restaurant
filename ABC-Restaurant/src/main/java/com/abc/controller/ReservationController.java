@@ -28,8 +28,9 @@ public class ReservationController extends HttpServlet {
 
 	private ReservationService reservationService;
 	private BranchService branchService;
-	private String reservationServlet = "Reservation";
+	
 	private String mainFile = "WEB-INF/view/reservation.jsp";
+	private String controllerUrl = "Reservation";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -107,7 +108,7 @@ public class ReservationController extends HttpServlet {
 		} else if ("cancelReservation".equals(action)) {
 			handleDeleteReservation(request, response);
 		} else {
-			response.sendRedirect(reservationServlet);
+			response.sendRedirect(controllerUrl);
 		}
 	}
 
@@ -141,7 +142,7 @@ public class ReservationController extends HttpServlet {
 		Reservation reservation = new Reservation(0, userId, branchId, date, timeFrame, seatCount, notes);
 		reservationService.addReservation(reservation);
 
-		response.sendRedirect(reservationServlet);
+		response.sendRedirect(controllerUrl);
 	}
 
 	private void handleUpdateReservation(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -155,14 +156,14 @@ public class ReservationController extends HttpServlet {
 		Reservation reservation = new Reservation(reservationId, 0, branchId, date, timeFrame, seatCount, notes);
 		reservationService.updateReservation(reservation);
 
-		response.sendRedirect(reservationServlet);
+		response.sendRedirect(controllerUrl);
 	}
 
 	private void handleDeleteReservation(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		int reservationId = Integer.parseInt(request.getParameter("reservationId"));
 		reservationService.deleteReservation(reservationId);
 
-		response.sendRedirect(reservationServlet);
+		response.sendRedirect(controllerUrl);
 	}
 
 }

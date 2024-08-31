@@ -9,21 +9,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Menu Management - ABC Restaurant</title>
-<%@ include file="/includes/externstyles.jsp" %>
+<%@ include file="/includes/externstyles.jsp"%>
 <style>
-body {
-	background-color: #f8f9fa;
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.cust-container {
-	padding: 20px;
-	background-color: #ffffff;
-	border-radius: 8px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	margin-bottom: 30px;
-}
-
 .card-img-top {
 	width: 100%;
 	height: 200px; /* Set a fixed height for all images */
@@ -74,10 +61,10 @@ table th, table td {
 </head>
 <body>
 
-	<%@ include file="/includes/navbar.jsp" %>
+	<%@ include file="/includes/navbar.jsp"%>
 
 
-	<div class="container" style="margin-top: 80px;">
+	<div class="container">
 		<div class="row">
 			<div class="cust-container">
 				<h1>Menu Items</h1>
@@ -133,8 +120,9 @@ table th, table td {
 													style="width: 70px; display: inline-block;" />
 
 												<!-- Add to Cart Button -->
-												<button class="btn btn-primary" type="submit">Add
-													to Cart</button>
+												<button class="btn btn-dark" type="submit">
+													<i class="fas fa-shopping-cart"></i> Add to Cart
+												</button>
 											</form>
 										</div>
 									</div>
@@ -152,8 +140,8 @@ table th, table td {
 		</c:forEach>
 	</div>
 	</div>
-	
-	<%@ include file="/includes/footer.jsp" %>
+
+	<%@ include file="/includes/footer.jsp"%>
 
 	<!-- Bootstrap JS Bundle with Popper -->
 	<script

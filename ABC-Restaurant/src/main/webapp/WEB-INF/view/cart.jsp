@@ -15,15 +15,6 @@
 	margin-bottom: 30px;
 }
 
-.checkout-btn {
-	background-color: #28a745;
-	color: white;
-}
-
-.checkout-btn:hover {
-	background-color: #218838;
-}
-
 td {
 	align-content: center;
 }
@@ -69,7 +60,7 @@ td {
 											<input type="hidden" name="action" value="remove"> <input
 												type="hidden" name="menuItemId"
 												value="${orderItem.menuItemId}">
-											<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+											<button type="submit" class="btn btn-dark btn-sm"> <i class="fa fa-times"></i> Delete</button>
 										</form>
 									</td>
 								</tr>
@@ -84,7 +75,7 @@ td {
 			<div class="d-flex justify-content-between align-items-center">
 				<h3>Total: Rs. ${total}</h3>
 				<form action="Cart?action=checkout" method="post">
-					<button type="submit" class="btn checkout-btn">Proceed to
+					<button type="submit" class="btn btn-dark"><i class="fa-regular fa-credit-card"></i> Proceed to
 						Checkout</button>
 				</form>
 			</div>

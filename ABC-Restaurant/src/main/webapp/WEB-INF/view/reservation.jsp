@@ -46,11 +46,9 @@ body {
 	<!-- Main Content -->
 	<div class="container main-content">
 		<!-- Reservation Form -->
-		<div class="card card-custom mb-4">
-			<div class="card-header bg-dark text-white">
-				<h4>${reservationToUpdate != null ? "Update Reservation" : "Make a Reservation"}</h4>
-			</div>
-			<div class="card-body">
+		<div class="form-container mb-4">
+			<h2>${reservationToUpdate != null ? "Update Reservation" : "Make a Reservation"}</h2>
+			<div class="cardcontainer">
 				<form
 					action="Reservation?action=${reservationToUpdate != null ? 'updateReservation' : 'makeReservation'}"
 					method="post" class="row g-3">
@@ -100,23 +98,17 @@ body {
 			</div>
 		</div>
 
-		<div class="card card-custom mb-4">
-			<div class="card-header bg-dark text-white">
-				<h4>Available Seats</h4>
-			</div>
-			<div class="card-body">
+		<div class="form-container mb-4">
+			<h2>Available Seats</h2>
+			<div class="cardcontainer">
 				<p id="availableSeats">Please select branch, date, and time
 					frame to check available seats.</p>
 			</div>
 		</div>
 
 		<!-- User Reservations Table -->
-		<div class="card card-custom">
-			<div class="card-header bg-dark text-white">
-				<h4>Your Reservations</h4>
-			</div>
-			<div class="card-body">
-				<div class="table-responsive">
+		<h2 class="my-4">Your Reservations</h2>
+		<div class="table-responsive">
 					<table class="table table-bordered table-hover">
 						<thead class="table-dark">
 							<tr>
@@ -146,7 +138,7 @@ body {
 											<input type="hidden" name="action" value="editReservation">
 											<input type="hidden" name="reservationId"
 												value="${reservation.id}">
-											<button type="submit" class="btn btn-warning btn-sm">
+											<button type="submit" class="btn btn-dark btn-sm">
 												<i class="fas fa-edit"></i> Edit
 											</button>
 										</form> <!-- Cancel Reservation Form -->
@@ -154,7 +146,7 @@ body {
 											<input type="hidden" name="action" value="cancelReservation">
 											<input type="hidden" name="reservationId"
 												value="${reservation.id}">
-											<button type="submit" class="btn btn-danger btn-sm">
+											<button type="submit" class="btn btn-dark btn-sm">
 												<i class="fas fa-trash"></i> Cancel
 											</button>
 										</form>
@@ -164,8 +156,6 @@ body {
 						</tbody>
 					</table>
 				</div>
-			</div>
-		</div>
 	</div>
 
 	<script>

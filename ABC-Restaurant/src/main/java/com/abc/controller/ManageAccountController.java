@@ -25,6 +25,7 @@ public class ManageAccountController extends HttpServlet {
 	private UserService userService;
 	
 	private String mainFile = "WEB-INF/view/account.jsp";
+	private String controllerUrl = "ManageAccount";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -71,7 +72,8 @@ public class ManageAccountController extends HttpServlet {
 				updateUserPassword(request, response);
 			}
 		}
-		doGet(request, response);
+		response.sendRedirect(controllerUrl);
+		//doGet(request, response);
 	}
 	
 	private void updateUser(HttpServletRequest request, HttpServletResponse response)

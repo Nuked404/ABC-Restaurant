@@ -31,6 +31,7 @@ public class CartController extends HttpServlet {
     private OrderItemService orderItemService;
     
     private String mainFile = "WEB-INF/view/cart.jsp";
+    private String controllerUrl = "Cart";
 
     public CartController() {
         super();
@@ -87,7 +88,7 @@ public class CartController extends HttpServlet {
 
         // Save the cart back to the session and redirect to the cart page
         request.getSession().setAttribute("localCart", cart);
-        response.sendRedirect("CartController");
+        response.sendRedirect(controllerUrl);
     }
 
     /**

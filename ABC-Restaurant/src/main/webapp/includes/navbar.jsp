@@ -14,11 +14,8 @@
 					aria-current="page" href="#">Home</a></li>
 				<li class="nav-item"><a class="nav-link" href="Menu">Menu</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">Gallery</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Reservations</a>
-				</li>
 				<li class="nav-item"><a class="nav-link" href="#">About Us</a>
 				</li>
-				<li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
 				<li class="nav-item"><a class="nav-link" href="login.jsp">Login</a>
 				</li>				
 				<li class="nav-item"><a class="nav-link" href="Query">Queries</a>

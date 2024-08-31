@@ -24,6 +24,7 @@ public class MenuController extends HttpServlet {
 	private MenuItemService menuItemService;
 
 	private String mainFile = "WEB-INF/view/menu.jsp";
+	private String controllerUrl = "Menu";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -57,7 +58,8 @@ public class MenuController extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		cartActions(request, response);
-		doGet(request, response);
+		response.sendRedirect(controllerUrl);
+		//doGet(request, response);
 	}
 
 	protected void loadCart(HttpServletRequest request, HttpServletResponse response)

@@ -10,12 +10,6 @@
 <title>Account Management - ABC Restaurant</title>
 <%@ include file="/includes/externstyles.jsp"%>
 <style>
-.form-container {
-	padding: 20px;
-	background-color: #ffffff;
-	border-radius: 8px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
 
 .btn-custom {
 	background-color: #343a40;
@@ -100,7 +94,7 @@
 	</div>
 
 	<!-- Main Content -->
-	<div class="container">
+	<div class="container" style="margin-top: 50px; margin-bottom: 50px;">
 		<div class="form-container">
 			<h2>Update Password</h2>
 			<form action="ManageAccount?action=updateUserPassword" method="post">

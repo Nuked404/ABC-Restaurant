@@ -18,9 +18,9 @@ import com.abc.service.QueryService;
 public class QueryController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private QueryService queryService;
-	private String controllerUrl = "Query";
+	private QueryService queryService;	
 	private String mainFile = "WEB-INF/view/query.jsp";
+	private String controllerUrl = "Query";
 
 	/**
 	 * @see HttpServlet#HttpServlet()

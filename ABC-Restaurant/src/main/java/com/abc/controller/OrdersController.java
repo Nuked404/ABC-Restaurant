@@ -30,6 +30,7 @@ public class OrdersController extends HttpServlet {
 	private BranchService branchService;
 	
 	private String mainFile = "WEB-INF/view/orders.jsp";
+	private String controllerUrl = "Orders";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -95,7 +96,8 @@ public class OrdersController extends HttpServlet {
             }
 		}		
 		
-		doGet(request, response);
+		response.sendRedirect(controllerUrl);
+		//doGet(request, response);
 	}
 
 }

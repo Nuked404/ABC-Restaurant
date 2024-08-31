@@ -26,7 +26,7 @@
     <!-- Main Container -->
     <div class="container main-content">
         <!-- Form for Adding or Updating a Query -->
-        <div class="card mt-5">
+        <div class="form-container mt-5">
             <div class="card-header">
                 <h4>${queryToUpdate != null ? "Update Query" : "Add Query"}</h4>
             </div>
@@ -65,14 +65,14 @@
                                 <form action="Query" method="get" style="display: inline;">
                                     <input type="hidden" name="action" value="editQuery">
                                     <input type="hidden" name="queryId" value="${query.id}">
-                                    <button type="submit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</button>
+                                    <button type="submit" class="btn btn-dark btn-sm"><i class="fas fa-edit"></i> Edit</button>
                                 </form>
                                 
                                 <!-- Delete Button -->
                                 <form action="Query" method="post" style="display: inline;">
                                     <input type="hidden" name="action" value="deleteQuery">
                                     <input type="hidden" name="queryId" value="${query.id}">
-                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Delete</button>
+                                    <button type="submit" class="btn btn-dark btn-sm"><i class="fas fa-trash"></i> Delete</button>
                                 </form>
                             </td>
                         </tr>

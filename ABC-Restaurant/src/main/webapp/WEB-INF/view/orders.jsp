@@ -11,14 +11,6 @@
 <title>View Orders - ABC Restaurant</title>
 <%@ include file="/includes/externstyles.jsp" %>
 <style>
-body {
-    background-color: #f8f9fa;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.container {
-    margin-top: 80px;
-}
 
 .card {
     margin-bottom: 20px;
@@ -56,7 +48,7 @@ body {
         <c:if test="${not empty orders}">
             <c:forEach var="order" items="${orders}">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header bg-dark text-white">
                         Order #${order.id}
                     </div>
                     <div class="card-body">
@@ -70,12 +62,12 @@ body {
                         <c:if test="${order.status != 'CANCELED'}">
                             <form action="Orders?action=cancelOrder" method="post" class="mt-3 d-inline">
                                 <input type="hidden" name="orderId" value="${order.id}">
-                                <button type="submit" class="btn btn-cancel">
+                                <button type="submit" class="btn btn-dark">
                                     <i class="fa fa-times"></i> Cancel Order
                                 </button>
                             </form>
                         </c:if>
-                        <a href="ViewOrder?id=${order.id}" class="btn btn-view" target="_blank">
+                        <a href="ViewOrder?id=${order.id}" class="btn btn-dark" target="_blank">
                             <i class="fa fa-eye"></i> View Order
                         </a>
                     </div>

@@ -2,7 +2,9 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
 	<div class="container" style="margin-top:0px;margin-bottom:0px;">
-		<a class="navbar-brand" href="#">ABC Restaurant</a>
+		<a class="navbar-brand" href="index.jsp">
+		<img src="images/Logo.png" alt="ABC Restaurant" width=auto height="50">
+		</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
 			data-bs-target="#navbarNav" aria-controls="navbarNav"
 			aria-expanded="false" aria-label="Toggle navigation">
@@ -11,10 +13,9 @@
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav ms-auto">
 				<li class="nav-item"><a class="nav-link active"
-					aria-current="page" href="#">Home</a></li>
+					aria-current="page" href="index.jsp">Home</a></li>
 				<li class="nav-item"><a class="nav-link" href="Menu">Menu</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Gallery</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">About Us</a>
+				<li class="nav-item"><a class="nav-link" href="gallery.jsp">Gallery</a></li>
 				</li>
 				<li class="nav-item"><a class="nav-link" href="login.jsp">Login</a>
 				</li>				
@@ -24,7 +25,9 @@
 				</li>
 				<li class="nav-item"><a class="nav-link" href="Orders">Orders</a>
 				</li>
-				<li class="nav-item"><a class="nav-link" href="cart"> <i
+				<li class="nav-item"><a class="nav-link" href="ManageAccount">Account</a>
+				</li>
+				<li class="nav-item"><a class="nav-link" href="Cart"> <i
 						class="fas fa-shopping-cart"></i> <!-- JSP Scriptlet to Calculate Cart Item Count -->
 						<%						
 						Cart cart = (Cart) session.getAttribute("localCart");

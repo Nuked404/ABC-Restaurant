@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Account Management - ABC Restaurant</title>
+<title>Account - ABC Restaurant</title>
 <%@ include file="/includes/admin/externstyles.jsp"%>
 </head>
 <body>
@@ -16,7 +16,7 @@
 	<div class="container main-content">
 		<div class="cust-container" style="margin-top: 50px;">
 			<h2>Account Management</h2>
-			<form action="ManageAccount?action=updateUser" method="post">
+			<form action="DashboardAccount?action=updateUser" method="post">
 				<input type="hidden" name="userID" value="${user.id}" />
 
 				<!-- Name Field -->
@@ -84,7 +84,7 @@
 	<div class="container" style="margin-top: 50px; margin-bottom: 50px;">
 		<div class="form-container">
 			<h2>Update Password</h2>
-			<form action="ManageAccount?action=updateUserPassword" method="post">
+			<form action="DashboardAccount?action=updateUserPassword" method="post">
 				<input type="hidden" name="userID" value="${user.id}" />
 				<!-- Password Field -->
 				<div class="mb-3">

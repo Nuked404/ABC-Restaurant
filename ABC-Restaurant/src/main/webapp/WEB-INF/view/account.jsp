@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Account Management - ABC Restaurant</title>
+<title>Account - ABC Restaurant</title>
 <%@ include file="/includes/externstyles.jsp"%>
 <style>
 
@@ -27,7 +27,7 @@
 
 	<!-- Main Content -->
 	<div class="container main-content">
-		<div class="form-container">
+		<div class="form-container" style="margin-top: 50px;">
 			<h2>Account Management</h2>
 			<form action="ManageAccount?action=updateUser" method="post">
 				<input type="hidden" name="userID" value="${user.id}" />

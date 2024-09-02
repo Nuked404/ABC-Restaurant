@@ -38,6 +38,10 @@ public class MenuItemService {
     public void updateMenuItem(MenuItem menuItem) {
         menuItemDAO.updateMenuItem(menuItem);
     }
+    
+    public List<MenuItem> searchMenuItems(String searchTerm) throws SQLException {
+        return menuItemDAO.searchMenuItems(searchTerm);
+    }
 
     // Method to delete a MenuItem by ID
     public void deleteMenuItem(int id) {

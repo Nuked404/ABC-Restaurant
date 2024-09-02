@@ -9,18 +9,20 @@ public class Order {
     private int userId; // foreign key from User
     private OrderStatus status;
     private BigDecimal total;
+    private int branchId;
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
     public Order() {}
 
-    public Order(int id, int userId, OrderStatus status, BigDecimal total, Timestamp createdAt, Timestamp updatedAt) {
+    public Order(int id, int userId, OrderStatus status, BigDecimal total, Timestamp createdAt, Timestamp updatedAt, int branchId) {
         this.id = id;
         this.userId = userId;
         this.status = status;
         this.total = total;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.branchId = branchId;
     }
 
     // Getter and setter methods
@@ -71,5 +73,13 @@ public class Order {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+    }
+    
+    public int getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(int branchId) {
+        this.branchId = branchId;
     }
 }

@@ -97,6 +97,36 @@ public class MenuItemDAO {
             e.printStackTrace();
         }
     }
+    
+    public List<MenuItem> searchMenuItems(String searchTerm) {
+        List<MenuItem> menuItems = new ArrayList<>();
+        String query = "SELECT * FROM menu_item WHERE name LIKE ? OR description LIKE ?";
+
+        try (Connection connection = DBConnectionFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+             
+            String searchPattern = "%" + searchTerm + "%";
+            statement.setString(1, searchPattern);
+            statement.setString(2, searchPattern);
+            
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                menuItems.add(new MenuItem(
+                    resultSet.getInt("id"),
+                    resultSet.getString("name"),
+                    resultSet.getString("description"),
+                    resultSet.getBigDecimal("price"),
+                    resultSet.getString("image_path"),
+                    resultSet.getString("category")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return menuItems;
+    }
 
     public void deleteMenuItem(int id) {
         String query = "DELETE FROM menu_item WHERE id = ?";

@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Menu Management - ABC Restaurant</title>
+<title>Menu - ABC Restaurant</title>
 <%@ include file="/includes/externstyles.jsp"%>
 <style>
 .card-img-top {
@@ -64,13 +64,23 @@ table th, table td {
 	<%@ include file="/includes/navbar.jsp"%>
 
 
-	<div class="container">
+	<div class="container" style="margin-top: 50px;">
 		<div class="row">
-			<div class="cust-container">
-				<h1>Menu Items</h1>
+			<!-- Flex container to keep items on the same line -->
+			<div
+				class="d-flex align-items-center justify-content-between cust-container">
+				<h1 class="me-3">Menu Items</h1>
+				<form class="d-flex" role="search" action="Menu" method="get">
+					<input type="hidden" name="action" value="searchMenu"> <input
+						class="form-control me-2" type="search" placeholder="Search"
+						name="searchQuery" aria-label="Search"
+						value="${searchTerm != null ? searchTerm : ''}" required>
+					<button class="btn btn-outline-success" type="submit">Search</button>
+				</form>
 			</div>
 		</div>
 	</div>
+
 
 
 	<div class="container main-content">

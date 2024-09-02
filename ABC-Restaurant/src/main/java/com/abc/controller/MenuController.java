@@ -43,7 +43,24 @@ public class MenuController extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		listMenuItems(request, response);
+		String action = request.getParameter("action");
+		if (action != null) {
+			if (action.equals("searchMenu")) {
+				String searchTerm = request.getParameter("searchQuery");
+				try {
+					List<MenuItem> menuItems = menuItemService.searchMenuItems(searchTerm);
+					request.setAttribute("searchTerm", searchTerm);
+					request.setAttribute("menuItems", menuItems);
+				} catch (SQLException e) {
+					request.setAttribute("errorMessage", e.getMessage());
+					request.getRequestDispatcher("WEB-INF/view/error.jsp").forward(request, response);
+				}
+			}
+		} else {
+			listMenuItems(request, response);
+		}
+		
+
 		loadCart(request, response);
 
 		request.getRequestDispatcher(mainFile).forward(request, response);
@@ -59,7 +76,7 @@ public class MenuController extends HttpServlet {
 		// TODO Auto-generated method stub
 		cartActions(request, response);
 		response.sendRedirect(controllerUrl);
-		//doGet(request, response);
+		// doGet(request, response);
 	}
 
 	protected void loadCart(HttpServletRequest request, HttpServletResponse response)

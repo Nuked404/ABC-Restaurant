@@ -11,81 +11,85 @@ import java.util.List;
 public class OrderDAO {
 
     // Add an order to the database
-    public int addOrder(Order order) throws SQLException {
-        String sql = "INSERT INTO orders (user_id, status, total) VALUES (?, ?, ?)";
-        try (Connection conn = DBConnectionFactory.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+	public int addOrder(Order order) throws SQLException {
+	    String sql = "INSERT INTO orders (user_id, status, total, branch_id) VALUES (?, ?, ?, ?)"; // Added branch_id
+	    try (Connection conn = DBConnectionFactory.getConnection();
+	         PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            ps.setInt(1, order.getUserId());
-            ps.setString(2, order.getStatus().name());
-            ps.setBigDecimal(3, order.getTotal());
+	        ps.setInt(1, order.getUserId());
+	        ps.setString(2, order.getStatus().name());
+	        ps.setBigDecimal(3, order.getTotal());
+	        ps.setInt(4, order.getBranchId()); 
 
-            ps.executeUpdate();
+	        ps.executeUpdate();
 
-            // Retrieve the generated order ID
-            try (ResultSet rs = ps.getGeneratedKeys()) {
-                if (rs.next()) {
-                    return rs.getInt(1); // Return the generated ID
-                } else {
-                    throw new SQLException("Creating order failed, no ID obtained.");
-                }
-            }
-        }
-    }
+	        // Retrieve the generated order ID
+	        try (ResultSet rs = ps.getGeneratedKeys()) {
+	            if (rs.next()) {
+	                return rs.getInt(1); // Return the generated ID
+	            } else {
+	                throw new SQLException("Creating order failed, no ID obtained.");
+	            }
+	        }
+	    }
+	}
 
     // Retrieve an order by its ID
-    public Order getOrderById(int id) {
-        Order order = null;
-        String query = "SELECT * FROM `orders` WHERE id = ?";
+	public Order getOrderById(int id) {
+	    Order order = null;
+	    String query = "SELECT * FROM `orders` WHERE id = ?";
 
-        try (Connection connection = DBConnectionFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+	    try (Connection connection = DBConnectionFactory.getConnection();
+	         PreparedStatement statement = connection.prepareStatement(query)) {
 
-            statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
+	        statement.setInt(1, id);
+	        ResultSet resultSet = statement.executeQuery();
 
-            if (resultSet.next()) {
-                order = new Order(
-                    resultSet.getInt("id"),
-                    resultSet.getInt("user_id"),
-                    OrderStatus.valueOf(resultSet.getString("status")), // Convert String to enum
-                    resultSet.getBigDecimal("total"),
-                    resultSet.getTimestamp("created_at"),
-                    resultSet.getTimestamp("updated_at")
-                );
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+	        if (resultSet.next()) {
+	            order = new Order(
+	                resultSet.getInt("id"),
+	                resultSet.getInt("user_id"),
+	                OrderStatus.valueOf(resultSet.getString("status")),
+	                resultSet.getBigDecimal("total"),
+	                resultSet.getTimestamp("created_at"),
+	                resultSet.getTimestamp("updated_at"),
+	                resultSet.getInt("branch_id")
+	            );
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 
-        return order;
-    }
+	    return order;
+	}
 
     // Retrieve all orders from the database
-    public List<Order> getAllOrders() {
-        List<Order> orders = new ArrayList<>();
-        String query = "SELECT * FROM `orders`";
+	public List<Order> getAllOrders() {
+	    List<Order> orders = new ArrayList<>();
+	    String query = "SELECT * FROM `orders`";
 
-        try (Connection connection = DBConnectionFactory.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)) {
+	    try (Connection connection = DBConnectionFactory.getConnection();
+	         Statement statement = connection.createStatement();
+	         ResultSet resultSet = statement.executeQuery(query)) {
 
-            while (resultSet.next()) {
-                orders.add(new Order(
-                    resultSet.getInt("id"),
-                    resultSet.getInt("user_id"),
-                    OrderStatus.valueOf(resultSet.getString("status")), // Convert String to enum
-                    resultSet.getBigDecimal("total"),
-                    resultSet.getTimestamp("created_at"),
-                    resultSet.getTimestamp("updated_at")
-                ));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+	        while (resultSet.next()) {
+	            orders.add(new Order(
+	                resultSet.getInt("id"),
+	                resultSet.getInt("user_id"),
+	                OrderStatus.valueOf(resultSet.getString("status")),
+	                resultSet.getBigDecimal("total"),
+	                resultSet.getTimestamp("created_at"),
+	                resultSet.getTimestamp("updated_at"),
+	                resultSet.getInt("branch_id")
+	            ));
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 
-        return orders;
-    }
+	    return orders;
+	}
+
 
     // Update an existing order in the database
     public void updateOrder(Order order) {
@@ -153,10 +157,11 @@ public class OrderDAO {
                 Order order = new Order(
                     resultSet.getInt("id"),
                     resultSet.getInt("user_id"),
-                    OrderStatus.valueOf(resultSet.getString("status")), // Convert String to enum
+                    OrderStatus.valueOf(resultSet.getString("status")),
                     resultSet.getBigDecimal("total"),
                     resultSet.getTimestamp("created_at"),
-                    resultSet.getTimestamp("updated_at")
+                    resultSet.getTimestamp("updated_at"),
+                    resultSet.getInt("branch_id")
                 );
                 orders.add(order);
             }
@@ -166,4 +171,5 @@ public class OrderDAO {
 
         return orders;
     }
+
 }

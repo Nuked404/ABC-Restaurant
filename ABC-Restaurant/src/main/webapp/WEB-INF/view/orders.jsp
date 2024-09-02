@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>View Orders - ABC Restaurant</title>
+<title>Orders - ABC Restaurant</title>
 <%@ include file="/includes/externstyles.jsp" %>
 <style>
 
@@ -56,7 +56,7 @@
                         <p><strong>Ordered At:</strong> ${order.createdAt}</p>
                         <p><strong>Total Cost:</strong> Rs. ${order.total}</p>
                         <p><strong>Order Status:</strong> ${order.status}</p>
-                        <p><strong>Order Branch:</strong> ${branchMap[userMap[order.userId].nearestLocation].location}</p>
+                        <p><strong>Order Branch:</strong> ${branchMap[order.branchId].location}</p>
 
                         <!-- Action Buttons -->
                         <c:if test="${order.status != 'CANCELED'}">

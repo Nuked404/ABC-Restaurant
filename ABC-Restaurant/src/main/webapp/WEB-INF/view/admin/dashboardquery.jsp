@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>User Queries - ABC Restaurant</title>
+<title>Query Management - ABC Restaurant</title>
 <%@ include file="/includes/admin/externstyles.jsp"%>
 </head>
 <body>

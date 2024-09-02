@@ -60,11 +60,18 @@ public class OrdersController extends HttpServlet {
         Map<Integer, Branch> branchMap = new HashMap<>();       
         
         int branchId = userService.getUserById(userId).getNearestLocation();
-        User user = userService.getUserById(userId);
-        Branch branch = branchService.getBranchById(branchId);
+        //User user = userService.getUserById(userId);
+        //Branch branch = branchService.getBranchById(branchId);
+        
+        for (Order order : orders) {
+            User user = userService.getUserById(order.getUserId());
+            Branch branch = branchService.getBranchById(order.getBranchId());
+            userMap.put(user.getId(), user);
+            branchMap.put(branch.getId(), branch);
+        }
 
-        userMap.put(userId, user);
-        branchMap.put(branchId, branch);
+        //userMap.put(userId, user);
+        //branchMap.put(branchId, branch);
 
         request.setAttribute("orders", orders);
         request.setAttribute("userMap", userMap);

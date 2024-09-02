@@ -45,7 +45,7 @@
 								<td>${status.index + 1}</td>
 								<td>${userMap[order.userId].name}</td>
 								<td>${userMap[order.userId].phone}</td>
-								<td>${branchMap[userMap[order.userId].nearestLocation].location}</td>
+								<td>${branchMap[order.branchId].location}</td>
 								<td>${order.createdAt}</td>
 								<td>${order.total}</td>
 								<td><a href="ViewOrder?id=${order.id}" class="btn btn-dark"

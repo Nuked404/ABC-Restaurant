@@ -26,6 +26,7 @@ public class RegisterController extends HttpServlet {
 	private UserService userService;
 	
 	private String mainFile = "WEB-INF/view/register.jsp";
+	private String redirFile = "WEB-INF/view/regsuccess.jsp";
 	private String controllerUrl = "Register"; // Maybe redirect to login
 
 	/**
@@ -71,6 +72,7 @@ public class RegisterController extends HttpServlet {
 		if (action != null) {
 			if (action.equals("addNewUser")) {
 				addNewUser(request, response);
+				return;
 			}
 		}
 		
@@ -114,6 +116,7 @@ public class RegisterController extends HttpServlet {
 
 		// Add the user using the service
 		userService.addUser(newUser);
+		request.getRequestDispatcher(redirFile).forward(request, response);		
 	}
 
 }

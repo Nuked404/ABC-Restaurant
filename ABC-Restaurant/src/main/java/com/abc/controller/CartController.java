@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.abc.model.Cart;
 import com.abc.model.MenuItem;
 import com.abc.model.OrderItem;
+import com.abc.model.User;
 import com.abc.service.MenuItemService;
 
 import javax.servlet.http.HttpSession;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import com.abc.model.Order;
 import com.abc.enums.OrderStatus;
 import com.abc.service.OrderService;
+import com.abc.service.UserService;
 import com.abc.service.OrderItemService;
 
 /**
@@ -29,8 +31,10 @@ public class CartController extends HttpServlet {
     private MenuItemService menuItemService;
     private OrderService orderService;
     private OrderItemService orderItemService;
+    private UserService userService;
     
     private String mainFile = "WEB-INF/view/cart.jsp";
+    private String redirFile = "WEB-INF/view/ordersuccess.jsp";
     private String controllerUrl = "Cart";
 
     public CartController() {
@@ -39,6 +43,7 @@ public class CartController extends HttpServlet {
         this.menuItemService = MenuItemService.getInstance();
         this.orderService = OrderService.getInstance();
         this.orderItemService = OrderItemService.getInstance();
+        this.userService = UserService.getInstance();
     }
 
     /**
@@ -82,7 +87,7 @@ public class CartController extends HttpServlet {
                     break;
                 case "checkout":
                     checkout(request, response);
-                    break;
+                    return;
             }
         }
 
@@ -122,6 +127,8 @@ public class CartController extends HttpServlet {
                 Order order = new Order();
                 order.setUserId(userId);
                 order.setStatus(OrderStatus.PENDING);
+                User user = userService.getUserById(userId);
+                order.setBranchId(user.getNearestLocation());
                 List<MenuItem> menuItems = menuItemService.getAllMenuItems();
                 order.setTotal(cart.calculateTotal(menuItems)); // Calculate total using the cart items
 
@@ -136,6 +143,7 @@ public class CartController extends HttpServlet {
 
                 cart.clearCart();
                 session.setAttribute("localCart", cart);
+                request.getRequestDispatcher(redirFile).forward(request, response);
                 //response.sendRedirect("OrderController?action=list");
 
             } catch (SQLException e) {

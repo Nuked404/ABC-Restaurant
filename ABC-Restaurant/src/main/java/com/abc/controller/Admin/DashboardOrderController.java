@@ -74,11 +74,10 @@ public class DashboardOrderController extends HttpServlet {
 
         // Fetch user details for each order
         for (Order order : orders) {
-            int userId = order.getUserId();
-            User user = userService.getUserById(userId);
-            Branch branch = branchService.getBranchById(user.getNearestLocation());
-            userMap.put(userId, user);
-            branchMap.put(user.getNearestLocation(), branch);
+            User user = userService.getUserById(order.getUserId());
+            Branch branch = branchService.getBranchById(order.getBranchId());
+            userMap.put(user.getId(), user);
+            branchMap.put(branch.getId(), branch);
         }
 
         request.setAttribute("orders", orders);

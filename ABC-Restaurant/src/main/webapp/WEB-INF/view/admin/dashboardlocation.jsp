@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard - ABC Restaurant</title>
+<title>Location Management - ABC Restaurant</title>
 <!-- Bootstrap 5 CDN -->
 <%@ include file="/includes/admin/externstyles.jsp"%>
 

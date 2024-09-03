@@ -59,7 +59,7 @@ public class UserDAO {
                         resultSet.getString("city"), // New field
                         resultSet.getInt("nearest_location"),
                         UserRole.valueOf(resultSet.getString("role")),
-                        resultSet.getString("password")
+                        ""
                 );
             }
         } catch (SQLException e) {
@@ -127,7 +127,7 @@ public class UserDAO {
                         resultSet.getString("city"), // New field
                         resultSet.getInt("nearest_location"),
                         UserRole.valueOf(resultSet.getString("role")),
-                        resultSet.getString("password")
+                        ""
                 ));
             }
         } catch (SQLException e) {
@@ -226,4 +226,5 @@ public class UserDAO {
         String hashedInputPassword = hashPassword(password);
         return hashedInputPassword.equals(hashedPassword);
     }
+
 }

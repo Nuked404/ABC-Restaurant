@@ -25,7 +25,7 @@
 			<div class="form-container">
 				<h4>${uemployee != null ? "Update Employee" : "Add Employee"}</h4>
 				<form
-					action="DashEmployeeManagement?action=${uemployee != null ? 'updateEmployee' : 'addEmployee'}"
+					action="DashboardEmployee?action=${uemployee != null ? 'updateEmployee' : 'addEmployee'}"
 					method="post">
 					<div class="mb-3">
 						<label for="fullName" class="form-label">Full Name</label> <input
@@ -108,12 +108,12 @@
 								<td>${employee.phone}</td>
 								<td>${branchMap[employee.nearestLocation].location}</td>
 								<td>
-									<form action="DashEmployeeManagement?action=editEmployee"
+									<form action="DashboardEmployee?action=editEmployee"
 										method="post" style="display: inline;">
 										<input type="hidden" name="employeeId" value="${employee.id}" />
 										<button class="btn btn-dark" type="submit"><i class="fas fa-edit"></i> Edit</button>
 									</form>
-									<form action="DashEmployeeManagement?action=deleteEmployee"
+									<form action="DashboardEmployee?action=deleteEmployee"
 										method="post" style="display: inline;">
 										<input type="hidden" name="employeeId" value="${employee.id}" />
 										<button class="btn btn-dark" type="submit"

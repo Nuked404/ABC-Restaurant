@@ -6,6 +6,8 @@ import com.abc.enums.UserRole;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 public class UserService {
 
 	// Singleton instance of UserService
@@ -39,11 +41,6 @@ public class UserService {
 		return userDAO.getUserById(id);
 	}
 
-	// Method to authenticate a User
-	public User authenticateUser(String email, String password) {
-		return userDAO.authenticateUser(email, password);
-	}
-
 	// Method to get Users by Role
 	public List<User> getUsersByRole(UserRole role) {
 		return userDAO.getUsersByRole(role);
@@ -68,4 +65,49 @@ public class UserService {
 	public void deleteUser(int id) {
 		userDAO.deleteUser(id);
 	}
+
+	// Authenticate user and start session
+	public boolean authenticateUser(HttpSession session, String email, String password) {
+		User user = userDAO.authenticateUser(email, password);
+		if (user != null) {
+			session.setAttribute("loggedInUser", user);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean hasRole(HttpSession session, UserRole role) {
+		if (isLoggedIn(session)) {
+			User loggedInUser = (User) session.getAttribute("loggedInUser");
+			return loggedInUser.getRole() == role;
+		}
+		return false;
+	}
+
+	public boolean isLoggedIn(HttpSession session) {
+		return session != null && session.getAttribute("loggedInUser") != null;
+	}
+
+	public void logoutUser(HttpSession session) {
+		if (session != null) {
+			session.invalidate(); // Invalidate the session to log out the user
+		}
+	}	
+	
+	public int getLoggedInUserID(HttpSession session)
+	{
+		User loggedInUser = getLoggedInUser(session);
+		if(loggedInUser != null)
+		{
+			return loggedInUser.getId();
+		}
+		return -1;
+	}
+	
+	public User getLoggedInUser(HttpSession session) {
+        if (isLoggedIn(session)) {
+            return (User) session.getAttribute("loggedInUser");
+        }
+        return null;
+    }
 }

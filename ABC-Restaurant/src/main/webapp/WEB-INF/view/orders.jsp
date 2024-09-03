@@ -59,7 +59,7 @@
                         <p><strong>Order Branch:</strong> ${branchMap[order.branchId].location}</p>
 
                         <!-- Action Buttons -->
-                        <c:if test="${order.status != 'CANCELED'}">
+                        <c:if test="${order.status == 'PENDING'}">
                             <form action="Orders?action=cancelOrder" method="post" class="mt-3 d-inline">
                                 <input type="hidden" name="orderId" value="${order.id}">
                                 <button type="submit" class="btn btn-dark">

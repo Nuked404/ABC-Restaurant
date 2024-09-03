@@ -4,12 +4,16 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
-  <servlet>
-  	<servlet-name>DashboardMainController</servlet-name>
-  	<display-name>DashboardMainController</display-name>
+  <filter>
+  	<filter-name>AuthenticationFilter</filter-name>
+  	<display-name>AuthenticationFilter</display-name>
   	<description></description>
-  	<servlet-class>com.abc.controller.Admin.DashboardMainController</servlet-class>
-  </servlet>
+  	<filter-class>com.abc.filter.AuthenticationFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>AuthenticationFilter</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
   <servlet>
   	<servlet-name>DashboardMenuController</servlet-name>
   	<display-name>DashboardMenuController</display-name>
@@ -100,10 +104,18 @@
   	<description></description>
   	<servlet-class>com.abc.controller.Admin.DashboardAccountController</servlet-class>
   </servlet>
-  <servlet-mapping>
-  	<servlet-name>DashboardMainController</servlet-name>
-  	<url-pattern>/AdminDashboard</url-pattern>
-  </servlet-mapping>
+  <servlet>
+  	<servlet-name>DashboardReportController</servlet-name>
+  	<display-name>DashboardReportController</display-name>
+  	<description></description>
+  	<servlet-class>com.abc.controller.Admin.DashboardReportController</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>LoginController</servlet-name>
+  	<display-name>LoginController</display-name>
+  	<description></description>
+  	<servlet-class>com.abc.controller.LoginController</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>DashboardMenuController</servlet-name>
   	<url-pattern>/DashboardMenu</url-pattern>
@@ -122,7 +134,7 @@
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>DashboardEmployeeController</servlet-name>
-  	<url-pattern>/DashEmployeeManagement</url-pattern>
+  	<url-pattern>/DashboardEmployee</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>MenuController</servlet-name>
@@ -150,7 +162,7 @@
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>DashboardQueryController</servlet-name>
-  	<url-pattern>/DashboardQueryManagement</url-pattern>
+  	<url-pattern>/DashboardQuery</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>ReservationController</servlet-name>
@@ -158,10 +170,18 @@
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>DashboardReservationController</servlet-name>
-  	<url-pattern>/DashboardReservationManagement</url-pattern>
+  	<url-pattern>/DashboardReservation</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>DashboardAccountController</servlet-name>
   	<url-pattern>/DashboardAccount</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>DashboardReportController</servlet-name>
+  	<url-pattern>/DashboardReport</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>LoginController</servlet-name>
+  	<url-pattern>/Login</url-pattern>
   </servlet-mapping>
 </web-app>

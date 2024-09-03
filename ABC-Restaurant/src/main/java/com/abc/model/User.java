@@ -124,4 +124,8 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    public boolean hasRole(UserRole role) {
+        return this.role == role;
+    }
 }

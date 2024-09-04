@@ -56,7 +56,7 @@
 								<div class="btn-group" role="group" aria-label="Order actions">
 									<c:forEach var="status" items="${reservationStatuses}">
 										<a
-											href="DashboardReservationManagement?action=updateReservationStatus&reservationId=${reservation.id}&status=${status}"
+											href="DashboardReservation?action=updateReservationStatus&reservationId=${reservation.id}&status=${status}"
 											class="btn btn-sm ${reservation.status == status ? 'btn-dark' : 'btn-outline-secondary'}">
 											${status} </a>
 									</c:forEach>

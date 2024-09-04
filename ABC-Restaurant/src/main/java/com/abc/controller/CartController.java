@@ -120,7 +120,7 @@ public class CartController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Cart cart = (Cart) session.getAttribute("localCart");
-        int userId = 3 ;//(int) session.getAttribute("userId"); // Assuming user ID is stored in session
+        int userId = ((User) request.getSession().getAttribute("loggedInUser")).getId();
 
         if (cart != null && !cart.getItems().isEmpty()) {
             try {

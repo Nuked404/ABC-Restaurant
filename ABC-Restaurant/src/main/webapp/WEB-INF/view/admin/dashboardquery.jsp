@@ -49,7 +49,7 @@
 							<td>${branchMap[userMap[query.userId].nearestLocation].location}</td>
 							<td>${query.query}</td>
 							<td>
-								<form action="DashboardQueryManagement" method="post"
+								<form action="DashboardQuery" method="post"
 									style="display: inline;">
 									<input type="hidden" name="action" value="updateResponse">
 									<input type="hidden" name="queryId" value="${query.id}">
@@ -61,7 +61,7 @@
 							</td>
 							<td>
 								<!-- Delete Button -->
-								<form action="DashboardQueryManagement" method="post"
+								<form action="DashboardQuery" method="post"
 									style="display: inline;">
 									<input type="hidden" name="action" value="deleteQuery">
 									<input type="hidden" name="queryId" value="${query.id}">

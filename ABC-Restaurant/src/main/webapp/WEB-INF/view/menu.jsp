@@ -119,21 +119,23 @@ table th, table td {
 											<p class="card-text">${item.description}</p>
 											<p class="card-text">
 												<strong>Rs.</strong>${item.price}/=</p>
-											<form action="Menu?action=addToCart" method="post"
-												style="display: inline;">
-												<!-- Hidden input to pass the Menu Item ID -->
-												<input type="hidden" name="menuItemId" value="${item.id}" />
+											<c:if test="${sessionScope.loggedInUser != null}">
+												<form action="Menu?action=addToCart" method="post"
+													style="display: inline;">
+													<!-- Hidden input to pass the Menu Item ID -->
+													<input type="hidden" name="menuItemId" value="${item.id}" />
 
-												<!-- Quantity Input -->
-												<input type="number" name="quantity" value="1" min="1"
-													class="form-control"
-													style="width: 70px; display: inline-block;" />
+													<!-- Quantity Input -->
+													<input type="number" name="quantity" value="1" min="1"
+														class="form-control"
+														style="width: 70px; display: inline-block;" />
 
-												<!-- Add to Cart Button -->
-												<button class="btn btn-dark" type="submit">
-													<i class="fas fa-shopping-cart"></i> Add to Cart
-												</button>
-											</form>
+													<!-- Add to Cart Button -->
+													<button class="btn btn-dark" type="submit">
+														<i class="fas fa-shopping-cart"></i> Add to Cart
+													</button>
+												</form>
+											</c:if>
 										</div>
 									</div>
 								</div>

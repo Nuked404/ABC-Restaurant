@@ -27,6 +27,7 @@ public class DashboardEmployeeController extends HttpServlet {
 	private BranchService branchService;
 
 	private String mainFile = "WEB-INF/view/admin/dashboardemployee.jsp";
+	private String controllerUrl = "DashboardEmployee";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -90,8 +91,10 @@ public class DashboardEmployeeController extends HttpServlet {
 		String action = request.getParameter("action");
 		if (action.equals("addEmployee")) {
 			addUser(request, response);
+			return;
 		} else if (action.equals("updateEmployee")) {
 			updateUser(request, response);
+			return;
 		}
 
 		doGet(request, response);
@@ -107,13 +110,13 @@ public class DashboardEmployeeController extends HttpServlet {
 		String confirmPassword = request.getParameter("confirmPassword");
 
 		if (!password.equals(confirmPassword)) {
-			request.setAttribute("errorMessage", "Passwords do not match.");
-			request.getRequestDispatcher(mainFile).forward(request, response);
+			response.sendRedirect(controllerUrl +"?error=true");
 			return;
 		}
 
 		User user = new User(name, email, phone, null, null, null, nearestLocation, UserRole.STAFF, password);
 		userService.addUser(user);
+		doGet(request, response);
 	}
 
 	private void updateUser(HttpServletRequest request, HttpServletResponse response)
@@ -139,12 +142,12 @@ public class DashboardEmployeeController extends HttpServlet {
 		if (password != null && !password.trim().isEmpty() && confirmPassword != null
 				&& !confirmPassword.trim().isEmpty()) { // Checking if the passwords are empty
 			if (!password.equals(confirmPassword)) {
-				request.setAttribute("errorMessage", "Passwords do not match.");
-				request.getRequestDispatcher(mainFile).forward(request, response);
+				response.sendRedirect(controllerUrl +"?error=true");
 				return;
 			}
 			userService.updatePassword(id, password); // Updating the password as well
 		}
+		doGet(request, response);
 	}
 
 	private void deleteUser(HttpServletRequest request, HttpServletResponse response)

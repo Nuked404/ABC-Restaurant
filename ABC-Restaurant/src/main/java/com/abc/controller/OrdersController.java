@@ -51,7 +51,7 @@ public class OrdersController extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		// Retrieve the current user's ID
-        int userId = 3;//Integer.parseInt(request.getSession().getAttribute("userId").toString());
+		int userId = ((User) request.getSession().getAttribute("loggedInUser")).getId();
 
         // Fetch orders for the current user
         List<Order> orders = orderService.getOrdersByUserId(userId);

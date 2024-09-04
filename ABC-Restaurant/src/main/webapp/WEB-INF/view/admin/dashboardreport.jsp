@@ -39,7 +39,7 @@
 				data : {
 					labels : labels,
 					datasets : [ {
-						label : 'Total Income',
+						label : 'Total Income (LKR)',
 						data : data,
 						backgroundColor : 'rgba(75, 192, 192, 0.2)',
 						borderColor : 'rgba(75, 192, 192, 1)',
@@ -58,7 +58,7 @@
 						y : {
 							title : {
 								display : true,
-								text : 'Total Income'
+								text : 'Total Income (LKR)'
 							},
 							beginAtZero : true
 						}
@@ -84,7 +84,7 @@
 							<tr>
 								<td>${entry.key}</td>
 								<td>${entry.value.totalQuantity}</td>
-								<td>${entry.value.totalPrice}</td>
+								<td>LKR.${entry.value.totalPrice}</td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -107,7 +107,7 @@
 					<c:forEach var="branch" items="${branchData}">
 						<tr>
 							<td>${branch.value['location']}</td>
-							<td>${branch.value['total_profit']}</td>
+							<td>LKR.${branch.value['total_profit']}</td>
 							<td>${branch.value['canceled_orders']}</td>
 						</tr>
 					</c:forEach>
@@ -133,7 +133,7 @@
 							<th scope="row">${status.index + 1}</th>
 							<td>${customer.customerName}</td>
 							<td>${customer.branchName}</td>
-							<td>${customer.totalPurchases}</td>
+							<td>LKR.${customer.totalPurchases}</td>
 						</tr>
 					</c:forEach>
 				</tbody>

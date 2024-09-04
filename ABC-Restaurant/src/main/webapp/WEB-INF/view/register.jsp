@@ -8,13 +8,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Registration - ABC Restaurant</title>
-<!-- Bootstrap CSS -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-	rel="stylesheet">
+<%@ include file="/includes/externstyles.jsp"%>
 <style>
 .mt-5 {
 	margin-top: 0.5rem !important;
+}
+body {
+	padding-top: 0px;
+}
+.card:hover {
+	transform: scale(1);
 }
 </style>
 </head>
@@ -99,16 +102,50 @@
 						</form>
 					</div>
 					<div class="card-footer text-center">
-						Already have an account? <a href="login.jsp" class="text-primary">Login
+						Already have an account? <a href="Login" class="text-primary">Login
 							here</a>
+							 <br> Go back <a href="index.jsp" class="text-primary">Home</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	
+	<!-- Error Modal -->
+	<div class="modal fade" id="errorModal" tabindex="-1"
+		aria-labelledby="errorModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-dark text-white">
+					<h5 class="modal-title" id="errorModalLabel">Error</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">Please make sure password and confirmation password are same!</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-	<!-- Bootstrap JS (optional, for Bootstrap components like dropdowns) -->
+	<!-- Bootstrap JS and Popper (for modal functionality) -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Show modal if there is an error -->
+	<script>
+		window.onload = function() {
+			const urlParams = new URLSearchParams(window.location.search);
+			const error = urlParams.get('error');
+			if (error) {
+				var errorModal = new bootstrap.Modal(document
+						.getElementById('errorModal'));
+				errorModal.show();
+			}
+		};
+	</script>
 </body>
 </html>

@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.abc.enums.TimeFrame;
 import com.abc.model.Branch;
 import com.abc.model.Reservation;
+import com.abc.model.User;
 import com.abc.service.BranchService;
 import com.abc.service.ReservationService;
 
@@ -82,7 +83,7 @@ public class ReservationController extends HttpServlet {
 		request.setAttribute("timeFrames", timeFrames);
 
 		// Fetch reservations by user ID for listing
-		int userId = 3;// Integer.parseInt(request.getSession().getAttribute("userId").toString());
+		int userId = ((User) request.getSession().getAttribute("loggedInUser")).getId();
 		List<Reservation> reservations = reservationService.getReservationsByUserId(userId);
 		Collections.reverse(reservations);
 		request.setAttribute("reservations", reservations);
@@ -132,7 +133,7 @@ public class ReservationController extends HttpServlet {
 	}
 
 	private void handleCreateReservation(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		int userId = 3;// Integer.parseInt(request.getSession().getAttribute("userId").toString());
+		int userId = ((User) request.getSession().getAttribute("loggedInUser")).getId();
 		int branchId = Integer.parseInt(request.getParameter("branchId"));
 		LocalDate date = LocalDate.parse(request.getParameter("reservationDate"));
 		TimeFrame timeFrame = TimeFrame.valueOf(request.getParameter("timeFrame"));

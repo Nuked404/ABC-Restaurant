@@ -97,8 +97,7 @@ public class RegisterController extends HttpServlet {
 
 		// Check if passwords match
 		if (!password.equals(confirmPassword)) {
-			request.setAttribute("errorMessage", "Passwords do not match.");
-			request.getRequestDispatcher(mainFile).forward(request, response);
+			response.sendRedirect(controllerUrl +"?error=true");			
 			return;
 		}
 

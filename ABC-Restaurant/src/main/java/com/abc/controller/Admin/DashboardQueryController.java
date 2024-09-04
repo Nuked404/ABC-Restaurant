@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import com.abc.model.Branch;
 import com.abc.model.Query;
 import com.abc.model.User;
 import com.abc.service.BranchService;
+import com.abc.service.EmailService;
 import com.abc.service.QueryService;
 import com.abc.service.UserService;
 
@@ -27,7 +29,8 @@ public class DashboardQueryController extends HttpServlet {
 	private QueryService queryService;
 	private UserService userService;
     private BranchService branchService; 
-    private String controllerUrl = "DashboardQueryManagement";
+    private EmailService emailService;
+    private String controllerUrl = "DashboardQuery";
     private String mainFile = "WEB-INF/view/admin/dashboardquery.jsp";
 
     /**
@@ -39,6 +42,7 @@ public class DashboardQueryController extends HttpServlet {
         queryService = QueryService.getInstance();
         userService = UserService.getInstance();
         branchService = BranchService.getInstance();
+        emailService= EmailService.getInstance();
     }
 
 	/**
@@ -77,7 +81,25 @@ public class DashboardQueryController extends HttpServlet {
         if ("updateResponse".equals(action)) {
             int queryId = Integer.parseInt(request.getParameter("queryId"));
             String responseText = request.getParameter("response");
+            
             queryService.updateQueryResponse(queryId, responseText);
+            Query respondedQuery = queryService.getQueryById(queryId);
+            
+            User queryOwner = userService.getUserById(respondedQuery.getUserId());
+            
+            String emailContent = EmailService.getQueryResponseTemplate()
+            		.replace("{{username}}", queryOwner.getName())
+                    .replace("{{queryId}}", Integer.toString(respondedQuery.getId()))
+                    .replace("{{queryText}}", respondedQuery.getQuery())
+                    .replace("{{responseText}}", responseText);
+
+            String subject = "Your Query Has Been Answered";
+            try {
+            	emailService.sendEmail(queryOwner.getEmail(), subject, emailContent);
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         } else if ("deleteQuery".equals(action)) {
             int queryId = Integer.parseInt(request.getParameter("queryId"));
             queryService.deleteQuery(queryId);

@@ -19,6 +19,7 @@ public class LoginController extends HttpServlet {
 	
 	private UserService userService;
 	private String mainFile = "WEB-INF/view/login.jsp";
+	private String controllerUrl = "Login";
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -34,6 +35,12 @@ public class LoginController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		String action = request.getParameter("Logout");
+		if (action != null)
+		{
+			HttpSession session = request.getSession(false);
+			userService.logoutUser(session);
+		}
 		request.getRequestDispatcher(mainFile).forward(request, response);
 	}
 
@@ -62,11 +69,11 @@ public class LoginController extends HttpServlet {
 	    		response.sendRedirect("index.jsp"); // For customers
 	    	}else
 	    	{
-	    		response.sendRedirect(mainFile +"?error=true");
+	    		response.sendRedirect(controllerUrl +"?error=true");
 	    	}
             
         } else {
-            response.sendRedirect(mainFile +"?error=true");
+            response.sendRedirect(controllerUrl +"?error=true");
         }
 	}
 

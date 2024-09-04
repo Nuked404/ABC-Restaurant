@@ -52,7 +52,8 @@ public class ManageAccountController extends HttpServlet {
 			return;
 		}
 		
-		User user = userService.getUserById(3);// Testing via my id
+		int userId = ((User) request.getSession().getAttribute("loggedInUser")).getId();
+		User user = userService.getUserById(userId);
         request.setAttribute("user", user);
 		
 		request.getRequestDispatcher(mainFile).forward(request, response);		
@@ -70,6 +71,7 @@ public class ManageAccountController extends HttpServlet {
 				updateUser(request, response);
 			} else if (action.equals("updateUserPassword")) {
 				updateUserPassword(request, response);
+				return;
 			}
 		}
 		response.sendRedirect(controllerUrl);
@@ -115,13 +117,13 @@ public class ManageAccountController extends HttpServlet {
 		
 		// Check if passwords match
 		if (!password.equals(confirmPassword)) {
-			request.setAttribute("errorMessage", "Passwords do not match.");
-			request.getRequestDispatcher(mainFile).forward(request, response); // re route to this?
+			response.sendRedirect(controllerUrl +"?error=true");
 			return;
 		}
 
 		// Add the user using the service
 		userService.updatePassword(id, password);
+		response.sendRedirect(controllerUrl);
 	}
 
 }

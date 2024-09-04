@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.abc.model.Query;
+import com.abc.model.User;
 import com.abc.service.QueryService;
 
 /**
@@ -47,8 +48,7 @@ public class QueryController extends HttpServlet {
         }
 		
 		
-		Integer userId = 3;//(Integer) request.getSession().getAttribute("userId"); // Assuming user is logged in and userId
-																				// is in session
+        int userId = ((User) request.getSession().getAttribute("loggedInUser")).getId();
 		List<Query> userQueries = queryService.getQueriesByUserId(userId);
 		Collections.reverse(userQueries);
 		request.setAttribute("queries", userQueries);
@@ -63,8 +63,7 @@ public class QueryController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		int userId = 3;//(Integer) request.getSession().getAttribute("userId"); // Assuming user is logged in and userId
-																				// is in session
+		int userId = ((User) request.getSession().getAttribute("loggedInUser")).getId();
 		
 		String action = request.getParameter("action");
         if ("addQuery".equals(action)) {        	

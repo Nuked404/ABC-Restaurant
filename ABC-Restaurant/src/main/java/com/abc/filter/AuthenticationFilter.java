@@ -21,6 +21,7 @@ import com.abc.service.UserService;
 public class AuthenticationFilter extends HttpFilter implements Filter {
 
 	private UserService userService;
+	private String accessDeniedPage = "WEB-INF/view/accessdenied.jsp";
 
 	/**
 	 * @see HttpFilter#HttpFilter()
@@ -49,6 +50,7 @@ public class AuthenticationFilter extends HttpFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		HttpSession session = httpRequest.getSession(false);
+		String debugURI = httpRequest.getRequestURI();
 
 		// Public API Calls
 		String loginURI = httpRequest.getContextPath() + "/Login";
@@ -58,6 +60,7 @@ public class AuthenticationFilter extends HttpFilter implements Filter {
 		// Public pages
 		boolean isMainPage = httpRequest.getRequestURI().equals(httpRequest.getContextPath() + "/index.jsp");
 		boolean isGalleryPage = httpRequest.getRequestURI().equals(httpRequest.getContextPath() + "/gallery.jsp");
+		boolean isMenuPage = httpRequest.getRequestURI().equals(httpRequest.getContextPath() + "/Menu");
 
 		// Public resources
 		boolean isStaticResource1 = httpRequest.getRequestURI().startsWith(httpRequest.getContextPath() + "/images/");
@@ -67,6 +70,8 @@ public class AuthenticationFilter extends HttpFilter implements Filter {
 		boolean isDashboardCall = httpRequest.getRequestURI().startsWith(httpRequest.getContextPath() + "/Dashboard");
 		boolean isDashboardReports = httpRequest.getRequestURI()
 				.equals(httpRequest.getContextPath() + "/DashboardReport");
+		boolean isDashboardEmployee = httpRequest.getRequestURI() // Employee management only should be accessible for the admin
+				.equals(httpRequest.getContextPath() + "/DashboardEmployee");
 
 		// Check login
 
@@ -82,7 +87,7 @@ public class AuthenticationFilter extends HttpFilter implements Filter {
 
 		if (isLoginRequest || isRegisterRequest) {
 			chain.doFilter(request, response); // Login and Register Controllers + API
-		} else if (isMainPage || isGalleryPage) {
+		} else if (isMainPage || isGalleryPage || isMenuPage) {
 			chain.doFilter(request, response); // Public Pages
 		} else if (isStaticResource1 || isStaticResource2) {
 			chain.doFilter(request, response); // Page resources
@@ -90,17 +95,17 @@ public class AuthenticationFilter extends HttpFilter implements Filter {
 			if (isDashboardCall) {
 				if (isLoggedInAsAdmin || isLoggedInAsEmployee) {
 					// Dashboard Pages
-					if (isDashboardReports) {
+					if (isDashboardReports || isDashboardEmployee) {
 						if (isLoggedInAsAdmin) {
-							chain.doFilter(request, response); // Reports only available for the admins ;P
+							chain.doFilter(request, response); // Reports and employees only available for the admins ;P
 						} else {
-							httpResponse.sendRedirect(loginURI);
+							request.getRequestDispatcher(accessDeniedPage).forward(request, response);
 						}
 					} else {
 						chain.doFilter(request, response);
 					}
 				} else {
-					httpResponse.sendRedirect(loginURI);
+					request.getRequestDispatcher(accessDeniedPage).forward(request, response);
 				}
 
 			} else {
@@ -109,11 +114,11 @@ public class AuthenticationFilter extends HttpFilter implements Filter {
 				if (isLoggedInAsCustomer) {
 					chain.doFilter(request, response);
 				} else {
-					httpResponse.sendRedirect(loginURI);
+					request.getRequestDispatcher(accessDeniedPage).forward(request, response);
 				}
 			}
 		} else {
-			httpResponse.sendRedirect(loginURI);
+			request.getRequestDispatcher(accessDeniedPage).forward(request, response);
 		}
 
 	}

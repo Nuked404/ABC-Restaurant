@@ -70,6 +70,8 @@ public class AuthenticationFilter extends HttpFilter implements Filter {
 		boolean isDashboardCall = httpRequest.getRequestURI().startsWith(httpRequest.getContextPath() + "/Dashboard");
 		boolean isDashboardReports = httpRequest.getRequestURI()
 				.equals(httpRequest.getContextPath() + "/DashboardReport");
+		boolean isDashboardBranches = httpRequest.getRequestURI()
+				.equals(httpRequest.getContextPath() + "/DashboardLocation");
 		boolean isDashboardEmployee = httpRequest.getRequestURI() // Employee management only should be accessible for the admin
 				.equals(httpRequest.getContextPath() + "/DashboardEmployee");
 
@@ -95,14 +97,14 @@ public class AuthenticationFilter extends HttpFilter implements Filter {
 			if (isDashboardCall) {
 				if (isLoggedInAsAdmin || isLoggedInAsEmployee) {
 					// Dashboard Pages
-					if (isDashboardReports || isDashboardEmployee) {
+					if (isDashboardReports || isDashboardEmployee || isDashboardBranches) {
 						if (isLoggedInAsAdmin) {
 							chain.doFilter(request, response); // Reports and employees only available for the admins ;P
 						} else {
 							request.getRequestDispatcher(accessDeniedPage).forward(request, response);
 						}
 					} else {
-						chain.doFilter(request, response);
+						chain.doFilter(request, response); // Employee pages
 					}
 				} else {
 					request.getRequestDispatcher(accessDeniedPage).forward(request, response);

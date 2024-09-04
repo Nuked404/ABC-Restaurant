@@ -20,6 +20,8 @@
 						href="DashboardReport">Reports</a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="DashboardEmployee">Manage Employees</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="DashboardLocation">Manage Locations</a></li>
 				</c:if>
 				<li class="nav-item"><a class="nav-link" href="DashboardMenu">Manage
 						Menu</a></li>
@@ -29,8 +31,6 @@
 						Orders</a></li>
 				<li class="nav-item"><a class="nav-link" href="DashboardQuery">Manage
 						Queries</a></li>
-				<li class="nav-item"><a class="nav-link"
-					href="DashboardLocation">Manage Locations</a></li>
 				<li class="nav-item"><a class="nav-link"
 					href="DashboardAccount">${sessionScope.loggedInUser.name}</a></li>
 				<li class="nav-item"><a class="nav-link" href="Login?Logout"><i

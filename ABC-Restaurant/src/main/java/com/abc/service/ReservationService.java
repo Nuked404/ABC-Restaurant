@@ -31,6 +31,11 @@ public class ReservationService {
         }
         return instance;
     }
+    
+    public ReservationService(ReservationDAO reservationDAO, BranchDAO branchDAO)  { // For Mock Testing ( Not signleton pattern anymore . . .)
+        this.reservationDAO = reservationDAO;
+        this.branchDAO = branchDAO;
+    }
 
     public void addReservation(Reservation reservation) {
         reservationDAO.addReservation(reservation);

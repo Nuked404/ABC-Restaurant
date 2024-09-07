@@ -97,7 +97,11 @@ public class RegisterController extends HttpServlet {
 
 		// Check if passwords match
 		if (!password.equals(confirmPassword)) {
-			response.sendRedirect(controllerUrl +"?error=true");			
+			response.sendRedirect(controllerUrl +"?error=1");			
+			return;
+		}
+		if (userService.checkIfEmailExists(email)) {
+			response.sendRedirect(controllerUrl +"?error=2");			
 			return;
 		}
 

@@ -91,6 +91,11 @@ public class ManageAccountController extends HttpServlet {
 
 		// Parsing the nearest location ID as an integer
 		int nearestLocation = Integer.parseInt(request.getParameter("nearestLocation"));
+		
+		if (userService.checkIfEmailExists(email)) {
+			response.sendRedirect(controllerUrl +"?error=2");			
+			return;
+		}
 
 		// Create a new User object
 		User newUser = new User();
@@ -117,7 +122,7 @@ public class ManageAccountController extends HttpServlet {
 		
 		// Check if passwords match
 		if (!password.equals(confirmPassword)) {
-			response.sendRedirect(controllerUrl +"?error=true");
+			response.sendRedirect(controllerUrl +"?error=1");			
 			return;
 		}
 

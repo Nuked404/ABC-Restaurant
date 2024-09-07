@@ -52,7 +52,7 @@ public class DashboardEmployeeController extends HttpServlet {
 				int id = Integer.parseInt(request.getParameter("employeeId"));
 			    User user = userService.getUserById(id);
 			    request.setAttribute("uemployee", user);
-			} else if (action.equals("delete")) {
+			} else if (action.equals("deleteEmployee")) {
 				deleteUser(request, response);
 			}
 		}
@@ -110,7 +110,11 @@ public class DashboardEmployeeController extends HttpServlet {
 		String confirmPassword = request.getParameter("confirmPassword");
 
 		if (!password.equals(confirmPassword)) {
-			response.sendRedirect(controllerUrl +"?error=true");
+			response.sendRedirect(controllerUrl +"?error=1");			
+			return;
+		}
+		if (userService.checkIfEmailExists(email)) {
+			response.sendRedirect(controllerUrl +"?error=2");			
 			return;
 		}
 
@@ -132,7 +136,8 @@ public class DashboardEmployeeController extends HttpServlet {
 		user.setName(name);
 		user.setEmail(email);
 		user.setPhone(phone);
-		user.setNearestLocation(nearestLocation);
+		user.setNearestLocation(nearestLocation);	
+		
 
 		userService.updateStaff(user);
 

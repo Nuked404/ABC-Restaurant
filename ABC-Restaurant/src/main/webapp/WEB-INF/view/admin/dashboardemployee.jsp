@@ -42,8 +42,7 @@
 						<label for="phoneNumber" class="form-label">Phone Number</label> <input
 							type="tel" class="form-control" id="phoneNumber"
 							name="phoneNumber"
-							value="${uemployee != null ? uemployee.phone : ''}"
-							required>
+							value="${uemployee != null ? uemployee.phone : ''}" required>
 					</div>
 					<div class="mb-3">
 						<label for="branchLocation" class="form-label">Nearest
@@ -111,13 +110,17 @@
 									<form action="DashboardEmployee?action=editEmployee"
 										method="post" style="display: inline;">
 										<input type="hidden" name="employeeId" value="${employee.id}" />
-										<button class="btn btn-dark" type="submit"><i class="fas fa-edit"></i> Edit</button>
+										<button class="btn btn-dark" type="submit">
+											<i class="fas fa-edit"></i> Edit
+										</button>
 									</form>
 									<form action="DashboardEmployee?action=deleteEmployee"
 										method="post" style="display: inline;">
 										<input type="hidden" name="employeeId" value="${employee.id}" />
 										<button class="btn btn-dark" type="submit"
-											onclick="return confirm('Are you sure you want to delete this employee? This action cannot be undone.');"><i class="fas fa-trash"></i> Delete</button>
+											onclick="return confirm('Are you sure you want to delete this employee? This action cannot be undone.');">
+											<i class="fas fa-trash"></i> Delete
+										</button>
 									</form>
 								</td>
 							</tr>
@@ -138,7 +141,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<div class="modal-body">Please make sure password and confirmation password are same!</div>
+				<div class="modal-body" id="errorMessage">Unknown Error!</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">Close</button>
@@ -156,7 +159,26 @@
 		window.onload = function() {
 			const urlParams = new URLSearchParams(window.location.search);
 			const error = urlParams.get('error');
+
+			// Define custom messages based on error codes
+			let errorMessage = '';
+
 			if (error) {
+				switch (error) {
+				case '1':
+					errorMessage = 'Please make sure password and confirmation password are the same!';
+					break;
+				case '2':
+					errorMessage = 'Email already exists. Please use a different email.';
+					break;
+				default:
+					errorMessage = 'An unknown error occurred. Please try again.';
+				}
+			}
+
+			// If any error message is set, show the modal
+			if (errorMessage !== '') {
+				document.getElementById('errorMessage').innerText = errorMessage;
 				var errorModal = new bootstrap.Modal(document
 						.getElementById('errorModal'));
 				errorModal.show();

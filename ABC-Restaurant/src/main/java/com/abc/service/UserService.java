@@ -30,6 +30,11 @@ public class UserService {
 		}
 		return instance;
 	}
+	
+	// Service wrapper to check if email exists
+    public boolean checkIfEmailExists(String email) {
+        return userDAO.emailExists(email);
+    }
 
 	// Method to add a User
 	public void addUser(User user) {

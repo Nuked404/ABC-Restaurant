@@ -122,7 +122,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<div class="modal-body">Please make sure password and confirmation password are same!</div>
+				<div class="modal-body" id="errorMessage">Unknown Error!</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">Close</button>
@@ -140,7 +140,26 @@
 		window.onload = function() {
 			const urlParams = new URLSearchParams(window.location.search);
 			const error = urlParams.get('error');
+
+			// Define custom messages based on error codes
+			let errorMessage = '';
+
 			if (error) {
+				switch (error) {
+				case '1':
+					errorMessage = 'Please make sure password and confirmation password are the same!';
+					break;
+				case '2':
+					errorMessage = 'Email already exists. Please use a different email.';
+					break;
+				default:
+					errorMessage = 'An unknown error occurred. Please try again.';
+				}
+			}
+
+			// If any error message is set, show the modal
+			if (errorMessage !== '') {
+				document.getElementById('errorMessage').innerText = errorMessage;
 				var errorModal = new bootstrap.Modal(document
 						.getElementById('errorModal'));
 				errorModal.show();

@@ -12,6 +12,26 @@ import java.util.List;
 
 public class UserDAO {
 
+	// Method to check if email exists in the user table
+    public boolean emailExists(String email) {
+        String query = "SELECT COUNT(*) FROM user WHERE email = ?";
+
+        try (Connection connection = DBConnectionFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, email);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    int count = resultSet.getInt(1);
+                    return count > 0; // Email exists if count > 0
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Default case if the query fails
+    }
+	
     // Add a new user with hashed password
     public void addUser(User user) {
         String query = "INSERT INTO user (name, email, phone, address_line1, address_line2, city, nearest_location, role, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";

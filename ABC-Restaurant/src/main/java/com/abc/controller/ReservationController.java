@@ -114,7 +114,7 @@ public class ReservationController extends HttpServlet {
 	}
 
 	private void handleCheckAvailability(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException { // This retrieves available seats at that time
 		try {
 			int branchId = Integer.parseInt(request.getParameter("branchId"));
 			LocalDate date = LocalDate.parse(request.getParameter("reservationDate"));

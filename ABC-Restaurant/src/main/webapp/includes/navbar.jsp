@@ -22,6 +22,8 @@
 				<c:if test="${sessionScope.loggedInUser == null}">
 					<li class="nav-item"><a class="nav-link" href="Login">Login</a>
 					</li>
+					<li class="nav-item"><a class="nav-link" href="Register">Register</a>
+					</li>
 				</c:if>
 				<c:if test="${sessionScope.loggedInUser != null}">
 					<li class="nav-item"><a class="nav-link" href="Query">Queries</a>

@@ -65,6 +65,9 @@ public class AuthenticationFilter extends HttpFilter implements Filter {
 		// Public resources
 		boolean isStaticResource1 = httpRequest.getRequestURI().startsWith(httpRequest.getContextPath() + "/images/");
 		boolean isStaticResource2 = httpRequest.getRequestURI().startsWith(httpRequest.getContextPath() + "/includes/");
+		
+		// Logged in shared resources
+		boolean isViewOrderRequest = httpRequest.getRequestURI().equals(httpRequest.getContextPath() + "/ViewOrder");
 
 		// Dashboard Filters
 		boolean isDashboardCall = httpRequest.getRequestURI().startsWith(httpRequest.getContextPath() + "/Dashboard");
@@ -94,6 +97,13 @@ public class AuthenticationFilter extends HttpFilter implements Filter {
 		} else if (isStaticResource1 || isStaticResource2) {
 			chain.doFilter(request, response); // Page resources
 		} else if (isLoggedIn) {
+			
+			// Shared resources amongst login first
+			if(isViewOrderRequest)
+			{
+				chain.doFilter(request, response);
+			}
+			
 			if (isDashboardCall) {
 				if (isLoggedInAsAdmin || isLoggedInAsEmployee) {
 					// Dashboard Pages

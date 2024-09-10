@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.abc.service.UserService"%>
+<%@ page import="com.abc.enums.UserRole"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,8 +36,22 @@
 			<div class="alert alert-dark">
 				<h2>Access Denied</h2>
 				<p>You do not have permission to access this page.</p>
-				<a href="index.jsp" class="btn btn-dark">Home</a> <a
-					href="Login" class="btn btn-dark">Login</a>
+				<c:if test="${sessionScope.loggedInUser.role == UserRole.ADMIN}">
+					<a href="DashboardReport" class="btn btn-dark">Home</a>
+				</c:if>
+				<c:if test="${sessionScope.loggedInUser.role == UserRole.STAFF}">
+					<a href="DashboardMenu" class="btn btn-dark">Home</a>
+				</c:if>
+				<c:if test="${sessionScope.loggedInUser.role == UserRole.CUSTOMER}">
+					<a href="index.jsp" class="btn btn-dark">Home</a>
+				</c:if>
+				<c:if test="${sessionScope.loggedInUser == null}">
+					<a href="Login" class="btn btn-dark">Login</a>
+				</c:if>
+				<c:if test="${sessionScope.loggedInUser != null}">
+					<a href="javascript:window.history.back();" class="btn btn-dark">Go
+						Back</a>
+				</c:if>
 			</div>
 		</div>
 	</div>

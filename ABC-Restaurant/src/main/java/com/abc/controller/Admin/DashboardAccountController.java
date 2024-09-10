@@ -74,6 +74,7 @@ public class DashboardAccountController extends HttpServlet {
 		if (action != null) {
 			if (action.equals("updateUser")) {
 				updateUser(request, response);
+				return;
 			} else if (action.equals("updateUserPassword")) {
 				updateUserPassword(request, response);
 				return;

@@ -2,6 +2,7 @@ package com.abc.controller;
 
 import com.abc.model.Order;
 import com.abc.model.OrderItem;
+import com.abc.enums.UserRole;
 import com.abc.model.Branch;
 import com.abc.model.MenuItem;
 import com.abc.model.User;
@@ -15,94 +16,110 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 /**
  * Servlet implementation class ViewOrderController
  */
 public class ViewOrderController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	private OrderService orderService;
-    private OrderItemService orderItemService;
-    private MenuItemService menuItemService;
-    private UserService userService;
-    private BranchService branchService; 
-    
-    private String mainFile = "WEB-INF/view/vieworder.jsp";
-    //private String redirFile = "DashboardOrder";
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ViewOrderController() {
-        super();
-        // TODO Auto-generated constructor stub
-        orderService = OrderService.getInstance();
-        orderItemService = OrderItemService.getInstance();
-        menuItemService = MenuItemService.getInstance();
-        userService = UserService.getInstance();
-        branchService = BranchService.getInstance();
-    }
+	private OrderItemService orderItemService;
+	private MenuItemService menuItemService;
+	private UserService userService;
+	private BranchService branchService;
+
+	private String mainFile = "WEB-INF/view/vieworder.jsp";
+	private String accessDeniedPage = "WEB-INF/view/accessdenied.jsp";
+	// private String redirFile = "DashboardOrder";
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		
-		String orderIdParam = request.getParameter("id");
-        if (orderIdParam != null && !orderIdParam.isEmpty()) {
-            int orderId = Integer.parseInt(orderIdParam);
-
-            Order order = orderService.getOrderById(orderId);
-            List<OrderItem> orderItems = orderItemService.getOrderItemsByOrderId(orderId);
-
-            // Fetch menu items for order items
-            Map<Integer, MenuItem> menuItems = new HashMap<>();
-            for (OrderItem orderItem : orderItems) {
-                MenuItem menuItem;
-				try {
-					menuItem = menuItemService.getMenuItemById(orderItem.getMenuItemId());
-					if (menuItem != null) {
-	                    menuItems.put(menuItem.getId(), menuItem);
-	                }
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}                
-            }
-
-            // Fetch user details
-            User user = userService.getUserById(order.getUserId());
-
-            // Create a map for user details
-            Map<Integer, User> userMap = new HashMap<>();
-            userMap.put(user.getId(), user);
-            
-            Branch branch = branchService.getBranchById(user.getNearestLocation());            
-            
-            Map<Integer, Branch> branchMap = new HashMap<>();
-            branchMap.put(branch.getId(), branch);
-
-            request.setAttribute("order", order);
-            request.setAttribute("orderItems", orderItems);
-            request.setAttribute("menuItems", menuItems);
-            request.setAttribute("userMap", userMap);
-            request.setAttribute("branchMap", branchMap);
-
-            request.getRequestDispatcher(mainFile).forward(request, response);
-        } 
+	public ViewOrderController() {
+		super();
+		// TODO Auto-generated constructor stub
+		orderService = OrderService.getInstance();
+		orderItemService = OrderItemService.getInstance();
+		menuItemService = MenuItemService.getInstance();
+		userService = UserService.getInstance();
+		branchService = BranchService.getInstance();
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		// response.getWriter().append("Served at: ").append(request.getContextPath());
+
+		String orderIdParam = request.getParameter("id");
+		if (orderIdParam != null && !orderIdParam.isEmpty()) {
+			int orderId = Integer.parseInt(orderIdParam);
+
+			Order order = orderService.getOrderById(orderId);
+			List<OrderItem> orderItems = orderItemService.getOrderItemsByOrderId(orderId);
+
+			// Fetch menu items for order items
+			Map<Integer, MenuItem> menuItems = new HashMap<>();
+			for (OrderItem orderItem : orderItems) {
+				MenuItem menuItem;
+				try {
+					menuItem = menuItemService.getMenuItemById(orderItem.getMenuItemId());
+					if (menuItem != null) {
+						menuItems.put(menuItem.getId(), menuItem);
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			// Fetch user details
+			User user = userService.getUserById(order.getUserId());
+
+			// Create a map for user details
+			Map<Integer, User> userMap = new HashMap<>();
+			userMap.put(user.getId(), user);
+
+			Branch branch = branchService.getBranchById(user.getNearestLocation());
+
+			Map<Integer, Branch> branchMap = new HashMap<>();
+			branchMap.put(branch.getId(), branch);
+
+			request.setAttribute("order", order);
+			request.setAttribute("orderItems", orderItems);
+			request.setAttribute("menuItems", menuItems);
+			request.setAttribute("userMap", userMap);
+			request.setAttribute("branchMap", branchMap);
+
+			// Access control for the id thingie smh
+			int userId = ((User) request.getSession().getAttribute("loggedInUser")).getId();
+			HttpSession session = request.getSession(false);
+			if (userService.hasRole(session, UserRole.CUSTOMER) && (order.getUserId() != userId)) {
+				request.getRequestDispatcher(accessDeniedPage).forward(request, response);// Don't need buggers here
+				return;
+			}
+
+			request.getRequestDispatcher(mainFile).forward(request, response);
+		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
